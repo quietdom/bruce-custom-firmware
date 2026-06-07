@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "author": "Arsenal",
+  "editor": "wokwi",
+  "parts": [
+    { "id": "esp", "type": "board-esp32-s3-devkitc-1", "attrs": {} },
+    {
+      "id": "lcd",
+      "type": "board-ssd1306",
+      "attrs": { "i2cAddress": "0x3C" }
+    },
+    {
+      "id": "btn_up",
+      "type": "wokwi-pushbutton",
+      "attrs": { "color": "green", "label": "UP" }
+    },
+    {
+      "id": "btn_down",
+      "type": "wokwi-pushbutton",
+      "attrs": { "color": "green", "label": "DOWN" }
+    },
+    {
+      "id": "btn_sel",
+      "type": "wokwi-pushbutton",
+      "attrs": { "color": "blue", "label": "SEL" }
+    },
+    {
+      "id": "btn_back",
+      "type": "wokwi-pushbutton",
+      "attrs": { "color": "red", "label": "BACK" }
+    }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "" ],
+    [ "esp:RX", "$serialMonitor:TX", "" ],
+    [ "lcd:SDA", "esp:GPIO8", "green" ],
+    [ "lcd:SCL", "esp:GPIO9", "yellow" ],
+    [ "lcd:VCC", "esp:3V3", "red" ],
+    [ "lcd:GND", "esp:GND.1", "black" ],
+    [ "btn_up:1.l", "esp:GPIO4", "green" ],
+    [ "btn_up:2.l", "esp:GND.1", "black" ],
+    [ "btn_down:1.l", "esp:GPIO5", "green" ],
+    [ "btn_down:2.l", "esp:GND.1", "black" ],
+    [ "btn_sel:1.l", "esp:GPIO6", "blue" ],
+    [ "btn_sel:2.l", "esp:GND.1", "black" ],
+    [ "btn_back:1.l", "esp:GPIO7", "red" ],
+    [ "btn_back:2.l", "esp:GND.1", "black" ]
+  ]
+}
