@@ -4,12 +4,13 @@
 #include "modules/rf/rf_utils.h"
 #include <globals.h>
 #include <ELECHOUSE_CC1101_SRC_DRV.h>
+#include <RCSwitch.h>
 
 struct CapturedFob {
     float frequency;
-    uint32_t protocol;
     uint64_t code;
     uint8_t bits;
+    int protocol;
     int rssi;
     unsigned long timestamp;
 };
@@ -34,6 +35,9 @@ void arsenal_car_keyfob_logger(void) {
     int freqCount = 4;
     int freqIdx = 0;
 
+    RCSwitch rc = RCSwitch();
+    rc.enableReceive(bruceConfigPins.CC1101_bus.io0);
+
     drawMainBorderWithTitle("Keyfob Logger");
     tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
     tft.setTextSize(FP);
@@ -57,6 +61,8 @@ void arsenal_car_keyfob_logger(void) {
         }
 
         ELECHOUSE_cc1101.SetRx();
+        rc.enableReceive(bruceConfigPins.CC1101_bus.io0);
+        rc.resetAvailable();
         unsigned long scanStart = millis();
 
         while (millis() - scanStart < 3000) {
@@ -68,20 +74,20 @@ void arsenal_car_keyfob_logger(void) {
                 break;
             }
 
-            if (ELECHOUSE_cc1101.checkRssi(100)) {
-                int rssi = ELECHOUSE_cc1101.getRssi();
-                if (rssi > -70) {
-                    uint32_t code = ELECHOUSE_cc1101.CheckRcv();
-                    if (code != 0) {
-                        CapturedFob &f = fobRing[fobIdx];
-                        f.frequency = freqs[freqIdx];
-                        f.code = code;
-                        f.bits = 24;
-                        f.rssi = rssi;
-                        f.timestamp = millis();
-                        fobIdx = (fobIdx + 1) % FOB_RING_SIZE;
-                        if (fobCount < FOB_RING_SIZE) fobCount++;
-                    }
+            if (rc.available()) {
+                uint64_t val = rc.getReceivedValue();
+                if (val != 0) {
+                    int rssi = ELECHOUSE_cc1101.getRssi();
+                    CapturedFob &f = fobRing[fobIdx];
+                    f.frequency = freqs[freqIdx];
+                    f.code = val;
+                    f.bits = rc.getReceivedBitlength();
+                    f.protocol = rc.getReceivedProtocol();
+                    f.rssi = rssi;
+                    f.timestamp = millis();
+                    fobIdx = (fobIdx + 1) % FOB_RING_SIZE;
+                    if (fobCount < FOB_RING_SIZE) fobCount++;
+                    rc.resetAvailable();
                 }
             }
             esp_task_wdt_reset();
@@ -120,9 +126,10 @@ done:
         if (f) {
             for (int i = 0; i < FOB_RING_SIZE; i++) {
                 if (fobRing[i].frequency == 0) continue;
-                f.printf("%.2f,%08lX,%d,%d,%lu\n",
+                f.printf("%.2f,%08lX,%d,%d,%d,%lu\n",
                     fobRing[i].frequency, (unsigned long)fobRing[i].code,
-                    (int)fobRing[i].bits, (int)fobRing[i].rssi, fobRing[i].timestamp);
+                    (int)fobRing[i].bits, (int)fobRing[i].protocol,
+                    (int)fobRing[i].rssi, fobRing[i].timestamp);
             }
             f.close();
         }

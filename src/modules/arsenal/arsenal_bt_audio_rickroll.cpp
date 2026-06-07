@@ -43,11 +43,11 @@ void arsenal_bt_audio_rickroll(void) {
         FoundDevice *list;
         int *count;
         RickScanCb(FoundDevice *d, int *c) : list(d), count(c) {}
-        void onResult(BLEAdvertisedDevice *dev) override {
+        void onResult(BLEAdvertisedDevice dev) override {
             if (*count >= 8) return;
-            String name = dev->getName().c_str();
-            String addr = dev->getAddress().toString().c_str();
-            int8_t rssi = dev->getRSSI();
+            String name = dev.getName().c_str();
+            String addr = dev.getAddress().toString().c_str();
+            int8_t rssi = dev.getRSSI();
             bool isAudio = false;
             String lower = name;
             lower.toLowerCase();
@@ -58,9 +58,9 @@ void arsenal_bt_audio_rickroll(void) {
                 lower.indexOf("bose") >= 0 || lower.indexOf("beats") >= 0)
                 isAudio = true;
 
-            if (dev->haveServiceUUID()) {
-                if (dev->isAdvertisingService(BLEUUID((uint16_t)0x110B)) ||
-                    dev->isAdvertisingService(BLEUUID((uint16_t)0x110A)))
+            if (dev.haveServiceUUID()) {
+                if (dev.isAdvertisingService(BLEUUID((uint16_t)0x110B)) ||
+                    dev.isAdvertisingService(BLEUUID((uint16_t)0x110A)))
                     isAudio = true;
             }
 
