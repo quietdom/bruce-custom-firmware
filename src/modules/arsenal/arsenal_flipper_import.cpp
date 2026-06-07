@@ -2,6 +2,8 @@
 #include "core/display.h"
 #include "core/mykeyboard.h"
 #include "core/sd_functions.h"
+#include "modules/rf/rf_utils.h"
+#include "modules/rf/rf_send.h"
 #include <SD.h>
 #include <globals.h>
 

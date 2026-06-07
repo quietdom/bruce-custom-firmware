@@ -3,6 +3,7 @@
 #include "core/mykeyboard.h"
 #include "modules/rf/rf_utils.h"
 #include "modules/rf/rf_send.h"
+#include "modules/rf/rf_bruteforce.h"
 #include <globals.h>
 
 void arsenal_garage_brute_force(void) {
