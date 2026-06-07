@@ -17,12 +17,7 @@
 
 // Config / QoL (implemented in arsenal_config.cpp)
 
-// WiFi Attacks
-ARSENAL_NEW_STUB(arsenal_wpa_handshake_grabber, "WPA Grabber")
-ARSENAL_NEW_STUB(arsenal_beacon_flood, "Beacon Flood")
-ARSENAL_NEW_STUB(arsenal_selective_deauth, "Selective Deauth")
-ARSENAL_NEW_STUB(arsenal_auth_flood, "Auth Flood")
-ARSENAL_NEW_STUB(arsenal_ap_clone_flood, "AP Clone Flood")
+// WiFi Attacks (implemented in separate files)
 ARSENAL_NEW_STUB(arsenal_arp_poisoner, "ARP Poisoner")
 ARSENAL_NEW_STUB(arsenal_ssl_strip, "SSL Strip Lite")
 ARSENAL_NEW_STUB(arsenal_upnp_port_opener, "UPnP Opener")
