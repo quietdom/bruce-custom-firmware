@@ -68,7 +68,7 @@ void arsenal_phish_device_found(void) {
         tft.setCursor(12, y);
         tft.printf("IP: %s", WiFi.softAPIP().toString().c_str());
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
         if (check(EscPress)) break;
         delay(200);
     }

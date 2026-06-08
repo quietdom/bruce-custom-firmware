@@ -32,8 +32,12 @@ void arsenal_wifi_channel_chart(void) {
     esp_wifi_set_promiscuous_rx_cb(chartPromiscCb);
 
     unsigned long startTime = millis();
+    uint8_t hopChannel = 1;
 
     while (true) {
+        esp_wifi_set_channel(hopChannel, WIFI_SECOND_CHAN_NONE);
+        hopChannel = (hopChannel % 14) + 1;
+
         drawMainBorderWithTitle("Channel Chart");
         int y = 36;
         tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
@@ -64,7 +68,7 @@ void arsenal_wifi_channel_chart(void) {
         }
 
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
 
         if (check(EscPress)) break;
         delay(300);

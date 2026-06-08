@@ -1,4 +1,7 @@
 #include "arsenal.h"
+
+#if !LITE_VERSION
+
 #include "core/display.h"
 #include "core/mykeyboard.h"
 #include <WiFi.h>
@@ -38,7 +41,7 @@ void arsenal_rf_silence_enforcer(void) {
     tft.setCursor(12, 66);
     tft.print("Alert on any transmission");
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc:stop  Sel:clear", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc:stop  Sel:clear"), tftWidth / 2, tftHeight - 20, 1);
     delay(1000);
 
     while (true) {
@@ -50,9 +53,9 @@ void arsenal_rf_silence_enforcer(void) {
             tft.drawRect(0, 0, tftWidth, tftHeight, TFT_RED);
             tft.setTextColor(TFT_RED, bruceConfig.bgColor);
             tft.setTextSize(FM);
-            tft.drawCentreString("RF DETECTED!", tftWidth / 2, tftHeight / 2 - 20, 1);
+            tft.drawCentreString(String("RF DETECTED!"), tftWidth / 2, tftHeight / 2 - 20, 1);
             tft.setTextSize(FP);
-            tft.drawCentreString("Transmission detected!", tftWidth / 2, tftHeight / 2 + 5, 1);
+            tft.drawCentreString(String("Transmission detected!"), tftWidth / 2, tftHeight / 2 + 5, 1);
             tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
             tft.printf("Alerts: %d", alertCount);
             delay(1500);
@@ -82,7 +85,7 @@ void arsenal_rf_silence_enforcer(void) {
         tft.print("quiet during ops.");
 
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("Esc:stop  Sel:clear", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc:stop  Sel:clear"), tftWidth / 2, tftHeight - 20, 1);
 
         if (check(EscPress)) break;
         if (check(SelPress)) {
@@ -99,3 +102,5 @@ void arsenal_rf_silence_enforcer(void) {
     esp_wifi_set_promiscuous(false);
     if (bgWasRunning) arsenal_background_start();
 }
+
+#endif

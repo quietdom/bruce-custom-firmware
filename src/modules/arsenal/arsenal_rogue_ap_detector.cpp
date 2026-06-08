@@ -140,7 +140,7 @@ void arsenal_rogue_ap_detector(void) {
         }
 
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
 
         if (check(EscPress)) break;
         esp_task_wdt_reset();

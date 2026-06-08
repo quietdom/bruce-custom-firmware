@@ -91,7 +91,7 @@ void arsenal_multi_device_sync(void) {
         tft.printf("Connected: %s", gotSync ? "YES" : "NO");
 
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("Esc:stop  Sel:toggle", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc:stop  Sel:toggle"), tftWidth / 2, tftHeight - 20, 1);
 
         if (check(EscPress)) break;
         if (check(SelPress)) {

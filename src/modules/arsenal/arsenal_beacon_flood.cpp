@@ -69,7 +69,7 @@ void arsenal_beacon_flood(void) {
             tft.setCursor(12, y);
             tft.printf("Time: %lus", elapsed);
             tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-            tft.drawCentreString("Esc:stop  Up/Dn:rate", tftWidth / 2, tftHeight - 20, 1);
+            tft.drawCentreString(String("Esc:stop  Up/Dn:rate"), tftWidth / 2, tftHeight - 20, 1);
         }
 
         if (check(EscPress)) break;

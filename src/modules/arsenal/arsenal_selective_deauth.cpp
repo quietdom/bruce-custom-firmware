@@ -89,7 +89,7 @@ void arsenal_selective_deauth(void) {
     tft.setCursor(12, 66);
     tft.print("Scanning for clients...");
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc to stop scan", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc to stop scan"), tftWidth / 2, tftHeight - 20, 1);
 
     memset(deauthClients, 0, sizeof(deauthClients));
     deauthClientCount = 0;
@@ -126,7 +126,7 @@ void arsenal_selective_deauth(void) {
             y += 12;
         }
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("Esc:stop scan", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc:stop scan"), tftWidth / 2, tftHeight - 20, 1);
         if (check(EscPress)) break;
         delay(100);
     }
@@ -219,7 +219,7 @@ void arsenal_selective_deauth(void) {
         tft.setCursor(12, y);
         tft.printf("Time: %lus", elapsed);
         tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-        tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
 
         if (check(EscPress)) break;
         esp_task_wdt_reset();

@@ -393,7 +393,7 @@ static void setupArsenalRoutes() {
 
     arsenalServer->on("/api/files/list", HTTP_GET, [](AsyncWebServerRequest *request) {
         String path = "/arsenal";
-        if (request->hasArg("path")) path = request->arg("path");
+        if (request->hasArg("path") path = request->arg("path");
 
         if (!setupSdCard()) {
             request->send(500, "application/json", "[]");
@@ -434,7 +434,7 @@ static void setupArsenalRoutes() {
 
 
     arsenalServer->on("/api/files/download", HTTP_GET, [](AsyncWebServerRequest *request) {
-        if (!request->hasArg("path")) { request->send(400); return; }
+        if (!request->hasArg("path") { request->send(400); return; }
         String path = request->arg("path");
         if (!setupSdCard() || !SD.exists(path)) { request->send(404); return; }
         request->send(SD, path, "application/octet-stream", true);
@@ -490,7 +490,7 @@ static void setupArsenalRoutes() {
         [](AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final) {
             static File uploadFile;
             String dest = "/arsenal";
-            if (request->hasArg("path")) dest = request->arg("path");
+            if (request->hasArg("path") dest = request->arg("path");
 
             if (!index) {
                 if (!setupSdCard()) return;
@@ -568,15 +568,15 @@ void arsenal_dashboard_start(void) {
 
 
     if (setupSdCard()) {
-        if (!SD.exists("/arsenal")) SD.mkdir("/arsenal");
-        if (!SD.exists("/arsenal/badusb")) SD.mkdir("/arsenal/badusb");
-        if (!SD.exists("/arsenal/subghz")) SD.mkdir("/arsenal/subghz");
-        if (!SD.exists("/arsenal/ir")) SD.mkdir("/arsenal/ir");
-        if (!SD.exists("/arsenal/portals")) SD.mkdir("/arsenal/portals");
-        if (!SD.exists("/arsenal/nfc")) SD.mkdir("/arsenal/nfc");
-        if (!SD.exists("/arsenal/rfid")) SD.mkdir("/arsenal/rfid");
-        if (!SD.exists("/arsenal/ibutton")) SD.mkdir("/arsenal/ibutton");
-        if (!SD.exists("/arsenal/scripts")) SD.mkdir("/arsenal/scripts");
+        if (!SD.exists("/arsenal") SD.mkdir("/arsenal");
+        if (!SD.exists("/arsenal/badusb") SD.mkdir("/arsenal/badusb");
+        if (!SD.exists("/arsenal/subghz") SD.mkdir("/arsenal/subghz");
+        if (!SD.exists("/arsenal/ir") SD.mkdir("/arsenal/ir");
+        if (!SD.exists("/arsenal/portals") SD.mkdir("/arsenal/portals");
+        if (!SD.exists("/arsenal/nfc") SD.mkdir("/arsenal/nfc");
+        if (!SD.exists("/arsenal/rfid") SD.mkdir("/arsenal/rfid");
+        if (!SD.exists("/arsenal/ibutton") SD.mkdir("/arsenal/ibutton");
+        if (!SD.exists("/arsenal/scripts") SD.mkdir("/arsenal/scripts");
     }
 
     arsenalServer = new AsyncWebServer(80);
@@ -659,7 +659,7 @@ void arsenal_remote_dashboard(void) {
     tft.print("- OTA firmware update");
 
     tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-    tft.drawCentreString("Press Esc to stop", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Press Esc to stop"), tftWidth / 2, tftHeight - 20, 1);
 
     while (true) {
         if (check(EscPress)) break;

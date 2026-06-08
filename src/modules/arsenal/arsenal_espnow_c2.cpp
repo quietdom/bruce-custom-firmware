@@ -86,7 +86,7 @@ void arsenal_espnow_c2(void) {
         }
 
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("Esc:stop  Sel:cmd", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc:stop  Sel:cmd"), tftWidth / 2, tftHeight - 20, 1);
 
         if (check(EscPress)) break;
         if (check(SelPress)) {

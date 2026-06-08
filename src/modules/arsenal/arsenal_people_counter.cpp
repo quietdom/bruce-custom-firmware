@@ -1,4 +1,7 @@
 #include "arsenal.h"
+
+#if !LITE_VERSION
+
 #include "arsenal_background.h"
 #include "core/display.h"
 #include "core/mykeyboard.h"
@@ -67,7 +70,11 @@ void arsenal_people_counter(void) {
     esp_wifi_set_promiscuous(true);
     esp_wifi_set_promiscuous_rx_cb(peoplePromiscCb);
 
+    uint8_t hopChannel = 1;
     while (true) {
+        esp_wifi_set_channel(hopChannel, WIFI_SECOND_CHAN_NONE);
+        hopChannel = (hopChannel % 14) + 1;
+
         unsigned long now = millis();
         int activeCount = 0;
         for (int i = 0; i < PEOPLE_RING_SIZE; i++) {
@@ -107,7 +114,7 @@ void arsenal_people_counter(void) {
             shown++;
         }
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
 
         if (check(EscPress)) break;
         esp_task_wdt_reset();
@@ -117,3 +124,5 @@ void arsenal_people_counter(void) {
     esp_wifi_set_promiscuous(false);
     if (bgWasRunning) arsenal_background_start();
 }
+
+#endif

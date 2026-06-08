@@ -155,7 +155,7 @@ void arsenal_wifi_bruteforce(void) {
         drawMainBorderWithTitle("WiFi Brute Force");
         tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
         tft.setTextSize(FP);
-        tft.drawCentreString("Scanning networks...", tftWidth / 2, tftHeight / 2, 1);
+        tft.drawCentreString(String("Scanning networks..."), tftWidth / 2, tftHeight / 2, 1);
 
         WiFi.mode(WIFI_STA);
         int n = WiFi.scanNetworks(false, false);
@@ -189,7 +189,7 @@ void arsenal_wifi_bruteforce(void) {
 
 
         if (setupSdCard()) {
-            if (!SD.exists("/arsenal")) SD.mkdir("/arsenal");
+            if (!SD.exists("/arsenal") SD.mkdir("/arsenal");
             String wlPath = "/arsenal/wordlist_" + targetSSID + ".txt";
             File wl = SD.open(wlPath, FILE_WRITE);
             if (wl) {
@@ -241,7 +241,7 @@ void arsenal_wifi_bruteforce(void) {
             tft.fillRect(padX, y, fillW, barH, TFT_GREEN);
 
             tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-            tft.drawCentreString("Esc to stop", tftWidth / 2, tftHeight - 18, 1);
+            tft.drawCentreString(String("Esc to stop"), tftWidth / 2, tftHeight - 18, 1);
 
 
             if (tryConnect(targetSSID, password, 4000)) {
@@ -261,7 +261,7 @@ void arsenal_wifi_bruteforce(void) {
             drawMainBorderWithTitle("PASSWORD FOUND!");
             tft.setTextColor(TFT_GREEN, bruceConfig.bgColor);
             tft.setTextSize(FM);
-            tft.drawCentreString("CRACKED!", tftWidth / 2, 50, 1);
+            tft.drawCentreString(String("CRACKED!"), tftWidth / 2, 50, 1);
             tft.setTextSize(FP);
             int y = 80;
             tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);

@@ -144,7 +144,7 @@ void arsenal_dns_spoofer(void) {
             }
 
             tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-            tft.drawCentreString("Esc to stop", tftWidth / 2, tftHeight - 20, 1);
+            tft.drawCentreString(String("Esc to stop"), tftWidth / 2, tftHeight - 20, 1);
 
 
             int packetSize = dnsUDP.parsePacket();

@@ -7,6 +7,15 @@
 #include <esp_wifi.h>
 #include <globals.h>
 
+#if defined(USE_NRF24_VIA_SPI)
+#include "modules/NRF24/nrf_common.h"
+#endif
+
+#if defined(USE_CC1101_VIA_SPI)
+#include "modules/rf/rf_utils.h"
+#include <ELECHOUSE_CC1101_SRC_DRV.h>
+#endif
+
 
 static uint8_t deauth_frame[] = {
     0xC0, 0x00,
@@ -43,23 +52,38 @@ static void wifi_jam_cycle(void) {
 
 
 static void ble_jam_cycle(void) {
-
-
+#if defined(USE_NRF24_VIA_SPI)
+    static uint8_t bleChannel = 0;
+    static const uint8_t bleAdvChannels[] = {2, 26, 80};
+    NRFradio.stopConstCarrier();
+    NRFradio.startConstCarrier(RF24_PA_MAX, bleAdvChannels[bleChannel]);
+    bleChannel = (bleChannel + 1) % 3;
+#endif
 }
 
 
 static void subghz_jam_cycle(void) {
 #if defined(USE_CC1101_VIA_SPI)
+    static float subghzFreq = 433.92;
+    static const float freqs[] = {315.0, 433.92, 868.35, 915.0};
+    static int freqIdx = 0;
 
+    ELECHOUSE_cc1101.setMHZ(subghzFreq);
+    ELECHOUSE_cc1101.SetTx();
+    delayMicroseconds(500);
 
+    subghzFreq = freqs[freqIdx];
+    freqIdx = (freqIdx + 1) % 4;
 #endif
 }
 
 
 static void nrf24_jam_cycle(void) {
 #if defined(USE_NRF24_VIA_SPI)
-
-
+    static uint8_t nrfChannel = 0;
+    NRFradio.stopConstCarrier();
+    NRFradio.startConstCarrier(RF24_PA_MAX, nrfChannel);
+    nrfChannel = (nrfChannel + 2) % 126;
 #endif
 }
 
@@ -104,28 +128,60 @@ void jamall_start_all(JamAllState &state) {
         state.bands[JAM_WIFI_24].active = true;
     }
 
+#if defined(USE_NRF24_VIA_SPI)
     if (state.bands[JAM_BLE].enabled && state.bands[JAM_BLE].available) {
-        state.bands[JAM_BLE].active = true;
+        if (nrf_start(NRF_MODE_SPI)) {
+            NRFradio.stopConstCarrier();
+            state.bands[JAM_BLE].active = true;
+        }
     }
+#endif
 
+#if defined(USE_CC1101_VIA_SPI)
     if (state.bands[JAM_SUBGHZ].enabled && state.bands[JAM_SUBGHZ].available) {
-        state.bands[JAM_SUBGHZ].active = true;
+        if (initRfModule("tx", 433.92)) {
+            state.bands[JAM_SUBGHZ].active = true;
+        }
     }
+#endif
 
+#if defined(USE_NRF24_VIA_SPI)
     if (state.bands[JAM_NRF24].enabled && state.bands[JAM_NRF24].available) {
-        state.bands[JAM_NRF24].active = true;
+        if (nrf_start(NRF_MODE_SPI)) {
+            NRFradio.stopConstCarrier();
+            state.bands[JAM_NRF24].active = true;
+        }
     }
+#endif
 
     state.startTime = millis();
     state.running = true;
 }
 
 void jamall_stop_all(JamAllState &state) {
-    for (int i = 0; i < JAM_BAND_COUNT; i++) {
-        state.bands[i].active = false;
+    if (state.bands[JAM_WIFI_24].active) {
+        esp_wifi_set_promiscuous(false);
     }
 
-    esp_wifi_set_promiscuous(false);
+#if defined(USE_NRF24_VIA_SPI)
+    if (state.bands[JAM_BLE].active || state.bands[JAM_NRF24].active) {
+        NRFradio.stopConstCarrier();
+        NRFradio.flush_tx();
+        NRFradio.powerDown();
+    }
+#endif
+
+#if defined(USE_CC1101_VIA_SPI)
+    if (state.bands[JAM_SUBGHZ].active) {
+        deinitRfModule();
+    }
+#endif
+
+    for (int i = 0; i < JAM_BAND_COUNT; i++) {
+        state.bands[i].active = false;
+        state.bands[i].level = 0;
+    }
+
     state.running = false;
 }
 
@@ -248,10 +304,10 @@ void jamall_draw_gui(JamAllState &state) {
 
     if (state.running) {
         tft.setTextColor(TFT_RED, tft.color565(20, 20, 20));
-        tft.drawCentreString("[PRESS] STOP ALL", tftWidth / 2, bottomY + 2, 1);
+        tft.drawCentreString(String("[PRESS] STOP ALL"), tftWidth / 2, bottomY + 2, 1);
     } else {
         tft.setTextColor(TFT_GREEN, tft.color565(20, 20, 20));
-        tft.drawCentreString("[PRESS] START  [ROTATE] Select", tftWidth / 2, bottomY + 2, 1);
+        tft.drawCentreString(String("[PRESS] START  [ROTATE] Select"), tftWidth / 2, bottomY + 2, 1);
     }
 }
 

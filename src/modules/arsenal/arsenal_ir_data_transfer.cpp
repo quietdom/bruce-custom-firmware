@@ -31,7 +31,7 @@ static void sendFileViaIR(const String &path) {
     tft.setCursor(12, 66);
     tft.printf("Size: %d bytes", (int)fileSize);
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc:cancel", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc:cancel"), tftWidth / 2, tftHeight - 20, 1);
 
     uint8_t chunk[IR_CHUNK_SIZE];
     uint32_t sent = 0;
@@ -95,7 +95,7 @@ static void sendFileViaIR(const String &path) {
             tft.setCursor(12, y);
             tft.printf("Time: %lus  %d%%", elapsed, pct);
             tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-            tft.drawCentreString("Esc:cancel", tftWidth / 2, tftHeight - 20, 1);
+            tft.drawCentreString(String("Esc:cancel"), tftWidth / 2, tftHeight - 20, 1);
         }
         esp_task_wdt_reset();
     }
@@ -111,7 +111,7 @@ static void sendFileViaIR(const String &path) {
     tft.setCursor(12, 66);
     tft.printf("Sent %d bytes", (int)sent);
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc:done", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc:done"), tftWidth / 2, tftHeight - 20, 1);
     while (!check(EscPress)) delay(100);
 }
 

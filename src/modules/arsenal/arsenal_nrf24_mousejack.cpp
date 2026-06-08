@@ -1,4 +1,7 @@
 #include "arsenal.h"
+
+#if !LITE_VERSION
+
 #include "core/display.h"
 #include "core/mykeyboard.h"
 #include <globals.h>
@@ -28,6 +31,8 @@ void arsenal_nrf24_mousejack(void) {
     tft.print("Once wired, use SubGHz");
     tft.setCursor(12, y);
     tft.print("menu for RF operations.");
-    tft.drawCentreString("Press any key", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Press any key"), tftWidth / 2, tftHeight - 20, 1);
     while (!check(EscPress) && !check(SelPress)) delay(100);
 }
+
+#endif

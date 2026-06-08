@@ -72,7 +72,7 @@ void arsenal_default_cred_scanner(void) {
 
     File logFile;
     if (setupSdCard()) {
-        if (!SD.exists("/arsenal")) SD.mkdir("/arsenal");
+        if (!SD.exists("/arsenal") SD.mkdir("/arsenal");
         logFile = SD.open("/arsenal/creds.txt", FILE_APPEND);
     }
 
@@ -117,7 +117,7 @@ void arsenal_default_cred_scanner(void) {
                         tft.setCursor(12, 76);
                         tft.printf("%s:%s", COMMON_USERS[u], COMMON_PASSWORDS[p]);
                         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-                        tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+                        tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
                         delay(1000);
                         break;
                     }
@@ -143,7 +143,7 @@ void arsenal_default_cred_scanner(void) {
             tft.setCursor(12, y);
             tft.printf("Progress: %d/%d", (int)i, (int)total);
             tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-            tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+            tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
         }
         esp_task_wdt_reset();
     }
@@ -156,6 +156,6 @@ void arsenal_default_cred_scanner(void) {
     tft.setCursor(12, 55);
     tft.printf("Hosts: %d  Creds: %d", scanned, found);
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc:done", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc:done"), tftWidth / 2, tftHeight - 20, 1);
     while (!check(EscPress)) delay(100);
 }

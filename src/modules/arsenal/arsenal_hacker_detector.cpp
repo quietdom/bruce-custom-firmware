@@ -1,4 +1,7 @@
 #include "arsenal.h"
+
+#if !LITE_VERSION
+
 #include "arsenal_background.h"
 #include "core/display.h"
 #include "core/mykeyboard.h"
@@ -112,7 +115,7 @@ void arsenal_hacker_detector(void) {
         }
 
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
 
         if (check(EscPress)) break;
         esp_task_wdt_reset();
@@ -122,3 +125,5 @@ void arsenal_hacker_detector(void) {
     esp_wifi_set_promiscuous(false);
     if (bgWasRunning) arsenal_background_start();
 }
+
+#endif

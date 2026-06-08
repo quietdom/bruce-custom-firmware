@@ -1,4 +1,7 @@
 #include "arsenal.h"
+
+#if !LITE_VERSION
+
 #include "core/display.h"
 #include "core/mykeyboard.h"
 #include "modules/rf/rf_utils.h"
@@ -25,7 +28,7 @@ void arsenal_doorbell_replay(void) {
     tft.setCursor(12, 60);
     tft.print("Press doorbell now");
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
 
     if (!initRfModule("rx", 433.92)) {
         displayRedStripe("RF init failed");
@@ -57,7 +60,7 @@ void arsenal_doorbell_replay(void) {
                 tft.setCursor(12, 66);
                 tft.printf("RSSI: %d  Count: %d", rssi, captured);
                 tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-                tft.drawCentreString("Esc:stop & replay", tftWidth / 2, tftHeight - 20, 1);
+                tft.drawCentreString(String("Esc:stop & replay"), tftWidth / 2, tftHeight - 20, 1);
                 rc.resetAvailable();
                 delay(300);
             } else {
@@ -103,3 +106,5 @@ void arsenal_doorbell_replay(void) {
         loopOptions(options, MENU_TYPE_SUBMENU, "Replay");
     }
 }
+
+#endif

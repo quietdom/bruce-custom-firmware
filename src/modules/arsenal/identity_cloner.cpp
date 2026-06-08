@@ -94,8 +94,8 @@ void arsenal_identity_cloner(void) {
         drawMainBorderWithTitle("Identity Cloner");
         tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
         tft.setTextSize(FP);
-        tft.drawCentreString("Capturing probe requests...", tftWidth / 2, tftHeight / 2 - 10, 1);
-        tft.drawCentreString("Press Sel when ready", tftWidth / 2, tftHeight / 2 + 10, 1);
+        tft.drawCentreString(String("Capturing probe requests..."), tftWidth / 2, tftHeight / 2 - 10, 1);
+        tft.drawCentreString(String("Press Sel when ready"), tftWidth / 2, tftHeight / 2 + 10, 1);
 
 
         int ch = 1;

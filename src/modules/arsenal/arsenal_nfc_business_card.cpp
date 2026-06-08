@@ -1,4 +1,7 @@
 #include "arsenal.h"
+
+#if !LITE_VERSION
+
 #include "core/display.h"
 #include "core/mykeyboard.h"
 #include "core/sd_functions.h"
@@ -9,8 +12,8 @@ static char nfcURL[128] = "https://github.com/quietdom";
 
 static void loadNfcConfig() {
     if (!setupSdCard()) return;
-    if (!SD.exists("/arsenal")) SD.mkdir("/arsenal");
-    if (SD.exists("/arsenal/nfc_card.txt")) {
+    if (!SD.exists("/arsenal") SD.mkdir("/arsenal");
+    if (SD.exists("/arsenal/nfc_card.txt") {
         File f = SD.open("/arsenal/nfc_card.txt", FILE_READ);
         if (f) {
             String line = f.readStringUntil('\n');
@@ -54,7 +57,7 @@ void arsenal_nfc_business_card(void) {
     tft.print("Connected via I2C/SPI");
     y += 14;
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Place tag near reader", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Place tag near reader"), tftWidth / 2, tftHeight - 20, 1);
 
     while (true) {
         if (check(EscPress)) break;
@@ -68,7 +71,7 @@ void arsenal_nfc_business_card(void) {
             tft.setCursor(12, 60);
             tft.printf("Current: %s", String(nfcURL).substring(0, 24).c_str());
             tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-            tft.drawCentreString("Esc:cancel", tftWidth / 2, tftHeight - 20, 1);
+            tft.drawCentreString(String("Esc:cancel"), tftWidth / 2, tftHeight - 20, 1);
 
             Serial.println("[NFC] Enter URL:");
             unsigned long start = millis();
@@ -101,8 +104,10 @@ void arsenal_nfc_business_card(void) {
             tft.setCursor(12, y);
             tft.print("Place tag near reader");
             tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-            tft.drawCentreString("Esc:done  Sel:edit", tftWidth / 2, tftHeight - 20, 1);
+            tft.drawCentreString(String("Esc:done  Sel:edit"), tftWidth / 2, tftHeight - 20, 1);
         }
         delay(100);
     }
 }
+
+#endif

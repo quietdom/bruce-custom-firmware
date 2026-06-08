@@ -48,7 +48,7 @@ void arsenal_auth_flood(void) {
     tft.setCursor(12, 66);
     tft.printf("Ch: %d BSSID: %02X:%02X:%02X", targetChannel, targetBSSID[0], targetBSSID[1], targetBSSID[2]);
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Starting...", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Starting..."), tftWidth / 2, tftHeight - 20, 1);
     delay(1000);
 
     bool bgWasRunning = arsenal_background_is_running();
@@ -116,7 +116,7 @@ void arsenal_auth_flood(void) {
             tft.setCursor(12, y);
             tft.printf("Rate: ~%d/s", elapsed > 0 ? sent / elapsed : 0);
             tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-            tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+            tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
         }
 
         if (check(EscPress)) break;

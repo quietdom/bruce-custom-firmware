@@ -93,7 +93,7 @@ void arsenal_smart_home_scanner(void) {
     tft.setCursor(12, 50);
     tft.print("Scanning for smart devices...");
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
 
     for (uint32_t i = 1; i <= total; i++) {
         if (check(EscPress)) break;
@@ -129,7 +129,7 @@ void arsenal_smart_home_scanner(void) {
             tft.setCursor(12, y);
             tft.printf("Devices found: %d", devCount);
             tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-            tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+            tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
         }
         esp_task_wdt_reset();
     }
@@ -147,6 +147,6 @@ void arsenal_smart_home_scanner(void) {
         y += 12;
     }
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc:done", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc:done"), tftWidth / 2, tftHeight - 20, 1);
     while (!check(EscPress)) delay(100);
 }

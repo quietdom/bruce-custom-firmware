@@ -15,7 +15,7 @@ void arsenal_log_start(void) {
     if (loggingActive) return;
     if (!setupSdCard()) return;
 
-    if (!SD.exists("/arsenal/logs")) {
+    if (!SD.exists("/arsenal/logs") {
         SD.mkdir("/arsenal");
         SD.mkdir("/arsenal/logs");
     }
@@ -86,7 +86,7 @@ void arsenal_session_log_menu(void) {
 
 
         options.push_back({"View Past Logs", []() {
-            if (!setupSdCard() || !SD.exists("/arsenal/logs")) {
+            if (!setupSdCard() || !SD.exists("/arsenal/logs") {
                 displayRedStripe("No logs found");
                 delay(1000);
                 return;
@@ -119,7 +119,7 @@ void arsenal_session_log_menu(void) {
                             }
                             f.close();
                             tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-                            tft.drawCentreString("Press any key", tftWidth / 2, tftHeight - 18, 1);
+                            tft.drawCentreString(String("Press any key"), tftWidth / 2, tftHeight - 18, 1);
                             while (!check(EscPress) && !check(SelPress)) delay(100);
                         }
                     }});

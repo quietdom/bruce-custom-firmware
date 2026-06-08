@@ -105,7 +105,7 @@ void arsenal_wifi_probe_log(void) {
         delay(1500);
         return;
     }
-    if (!SD.exists("/arsenal")) SD.mkdir("/arsenal");
+    if (!SD.exists("/arsenal") SD.mkdir("/arsenal");
 
     memset(probeRing, 0, sizeof(probeRing));
     probeIdx = 0;
@@ -125,14 +125,23 @@ void arsenal_wifi_probe_log(void) {
     }
 
     bool running = true;
+    uint8_t hopChannel = 1;
     while (running) {
+        esp_wifi_set_channel(hopChannel, WIFI_SECOND_CHAN_NONE);
+        hopChannel = (hopChannel % 14) + 1;
+
+        int activeCount = 0;
+        for (int i = 0; i < PROBE_RING_SIZE; i++) {
+            if (probeRing[i].used) activeCount++;
+        }
+
         drawMainBorderWithTitle("Probe Log");
         tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
         tft.setTextSize(FP);
         tft.setCursor(8, 38);
         tft.printf("Logging: %s", probeLogActive ? "ON" : "OFF");
         tft.setCursor(8, 52);
-        tft.printf("Unique: %d", PROBE_RING_SIZE);
+        tft.printf("Unique: %d", activeCount);
 
         int y = 70;
         int shown = 0;
@@ -148,7 +157,7 @@ void arsenal_wifi_probe_log(void) {
         }
 
         tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-        tft.drawCentreString("Esc=stop  Sel=clear", tftWidth / 2, tftHeight - 10, 1);
+        tft.drawCentreString(String("Esc=stop  Sel=clear"), tftWidth / 2, tftHeight - 10, 1);
 
         if (check(EscPress)) {
             while (check(EscPress)) delay(10);

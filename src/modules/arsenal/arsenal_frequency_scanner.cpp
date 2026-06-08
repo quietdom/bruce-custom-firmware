@@ -23,7 +23,7 @@ void arsenal_frequency_scanner(void) {
     tft.setCursor(12, 45);
     tft.print("Sweeping 300-928 MHz...");
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
     delay(500);
 
     float sweepFreqs[] = {
@@ -77,7 +77,7 @@ void arsenal_frequency_scanner(void) {
         tft.setCursor(12, y);
         tft.printf("RSSI: %d dBm", rssi);
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
 
         esp_task_wdt_reset();
     }
@@ -98,7 +98,7 @@ void arsenal_frequency_scanner(void) {
             y += 12;
         }
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("Esc:done", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc:done"), tftWidth / 2, tftHeight - 20, 1);
         while (!check(EscPress)) delay(100);
     }
 }

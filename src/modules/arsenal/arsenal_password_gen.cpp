@@ -81,7 +81,7 @@ void arsenal_password_generator(void) {
                 delay(1000);
                 return;
             }
-            if (!SD.exists("/arsenal")) SD.mkdir("/arsenal");
+            if (!SD.exists("/arsenal") SD.mkdir("/arsenal");
             File f = SD.open("/arsenal/passwords.txt", FILE_APPEND);
             if (!f) { displayRedStripe("Open failed"); delay(1000); return; }
             f.println(current);
@@ -110,7 +110,7 @@ void arsenal_password_generator(void) {
 
         tft.setTextColor(TFT_RED, bruceConfig.bgColor);
         tft.setTextSize(FP);
-        tft.drawCentreString("Sel=menu  Esc=exit", tftWidth / 2, tftHeight - 10, 1);
+        tft.drawCentreString(String("Sel=menu  Esc=exit"), tftWidth / 2, tftHeight - 10, 1);
 
         if (check(SelPress)) {
             while (check(SelPress)) delay(10);

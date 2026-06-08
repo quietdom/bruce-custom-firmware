@@ -66,7 +66,7 @@ void arsenal_ap_clone_flood(void) {
     tft.setCursor(12, 66);
     tft.print("Generating 50 clones...");
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc to stop", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc to stop"), tftWidth / 2, tftHeight - 20, 1);
     delay(1500);
 
     bool bgWasRunning = arsenal_background_is_running();
@@ -118,7 +118,7 @@ void arsenal_ap_clone_flood(void) {
         tft.setCursor(12, y);
         tft.printf("Time: %lus", elapsed);
         tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-        tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
 
         if (check(EscPress)) break;
         esp_task_wdt_reset();

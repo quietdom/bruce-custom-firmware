@@ -31,7 +31,7 @@ void arsenal_wps_pin_attack(void) {
     tft.setCursor(12, 50);
     tft.print("Scanning for WPS...");
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
 
     int n = WiFi.scanNetworks(false, false);
     if (n == 0) {
@@ -110,7 +110,7 @@ void arsenal_wps_pin_attack(void) {
     y += 16;
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
     tft.print("Try these PINs on target");
-    tft.drawCentreString("Esc:done", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc:done"), tftWidth / 2, tftHeight - 20, 1);
 
     while (!check(EscPress)) delay(100);
 }

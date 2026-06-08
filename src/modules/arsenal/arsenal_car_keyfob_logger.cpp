@@ -1,4 +1,7 @@
 #include "arsenal.h"
+
+#if !LITE_VERSION
+
 #include "core/display.h"
 #include "core/mykeyboard.h"
 #include "modules/rf/rf_utils.h"
@@ -48,7 +51,7 @@ void arsenal_car_keyfob_logger(void) {
     tft.setCursor(12, 66);
     tft.print("Press any RF fob/key");
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc:stop  Sel:freq", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc:stop  Sel:freq"), tftWidth / 2, tftHeight - 20, 1);
     delay(1000);
 
     unsigned long startTime = millis();
@@ -116,14 +119,14 @@ void arsenal_car_keyfob_logger(void) {
             shown++;
         }
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("Esc:stop  Sel:freq", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc:stop  Sel:freq"), tftWidth / 2, tftHeight - 20, 1);
     }
 
 done:
     deinitRfModule();
 
     if (fobCount > 0 && setupSdCard()) {
-        if (!SD.exists("/arsenal")) SD.mkdir("/arsenal");
+        if (!SD.exists("/arsenal") SD.mkdir("/arsenal");
         File f = SD.open("/arsenal/keyfobs.log", FILE_APPEND);
         if (f) {
             for (int i = 0; i < FOB_RING_SIZE; i++) {
@@ -137,3 +140,5 @@ done:
         }
     }
 }
+
+#endif

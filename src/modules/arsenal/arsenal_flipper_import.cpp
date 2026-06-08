@@ -21,14 +21,14 @@ static bool parseFlipperSub(const char *path, uint16_t **durations, int *count) 
     while (f.available() && *count < maxSamples) {
         String line = f.readStringUntil('\n');
         line.trim();
-        if (line.startsWith("Filetype:")) continue;
-        if (line.startsWith("Version:")) continue;
-        if (line.startsWith("Frequency:")) continue;
-        if (line.startsWith("Preset:")) continue;
-        if (line.startsWith("Name:")) continue;
-        if (line.startsWith("")) continue;
+        if (line.startsWith("Filetype:") continue;
+        if (line.startsWith("Version:") continue;
+        if (line.startsWith("Frequency:") continue;
+        if (line.startsWith("Preset:") continue;
+        if (line.startsWith("Name:") continue;
+        if (line.startsWith("") continue;
 
-        if (line.startsWith("RAW_Data:")) {
+        if (line.startsWith("RAW_Data:") {
             inData = true;
             String data = line.substring(9);
             data.trim();
@@ -91,7 +91,7 @@ void arsenal_flipper_import(void) {
     while (entry && fileCount < 15) {
         String name = String(entry.name());
         name = name.substring(name.lastIndexOf('/') + 1);
-        if (name.endsWith(".sub")) {
+        if (name.endsWith(".sub") {
             String label = name;
             options.push_back({label, []() {}});
             fileCount++;
@@ -122,7 +122,7 @@ void arsenal_flipper_import(void) {
     while (entry) {
         String name = String(entry.name());
         name = name.substring(name.lastIndexOf('/') + 1);
-        if (name.endsWith(".sub")) {
+        if (name.endsWith(".sub") {
             if (count == selectedIdx) {
                 selectedPath = String(entry.name());
                 break;
@@ -162,7 +162,7 @@ void arsenal_flipper_import(void) {
     y += 14;
     tft.print("Ready to replay");
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc:replay  Sel:done", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc:replay  Sel:done"), tftWidth / 2, tftHeight - 20, 1);
 
     while (!check(EscPress) && !check(SelPress)) delay(100);
 
@@ -175,7 +175,7 @@ void arsenal_flipper_import(void) {
             tft.setCursor(12, 50);
             tft.print("Replaying...");
             tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-            tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+            tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
 
             for (int r = 0; r < 5; r++) {
                 if (check(EscPress)) break;

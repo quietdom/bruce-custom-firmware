@@ -1,15 +1,14 @@
 #include "arsenal.h"
 #include "core/display.h"
 #include "core/mykeyboard.h"
-#include <BLEAdvertising.h>
-#include <BLEDevice.h>
+#include <NimBLEDevice.h>
 #include <globals.h>
 
 static int spoofCount = 5;
 static bool spoofRunning = false;
 
 
-static void setAirTagPayload(BLEAdvertising *adv, int index) {
+static void setAirTagPayload(NimBLEAdvertising *adv, int index) {
 
 
     uint8_t payload[27];
@@ -29,10 +28,10 @@ static void setAirTagPayload(BLEAdvertising *adv, int index) {
     }
     randomSeed(micros());
 
-    BLEAdvertisementData advData;
+    NimBLEAdvertisementData advData;
 
 
-    String mfgData = "";
+    std::string mfgData;
     mfgData += (char)0x4C;
     mfgData += (char)0x00;
     for (int i = 0; i < 27; i++) {
@@ -49,8 +48,9 @@ void arsenal_airtag_spoofer(void) {
         int currentTag = 0;
         int totalBroadcasts = 0;
 
-        BLEDevice::init("");
-        BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
+        NimBLEDevice::deinit(true);
+        NimBLEDevice::init("");
+        NimBLEAdvertising *pAdvertising = NimBLEDevice::getAdvertising();
 
         while (spoofRunning) {
 
@@ -96,7 +96,7 @@ void arsenal_airtag_spoofer(void) {
             tft.printf("Range: %d tags", spoofCount);
 
             tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-            tft.drawCentreString("Esc to stop", tftWidth / 2, tftHeight - 20, 1);
+            tft.drawCentreString(String("Esc to stop"), tftWidth / 2, tftHeight - 20, 1);
 
 
             if (check(EscPress)) {
@@ -117,6 +117,6 @@ void arsenal_airtag_spoofer(void) {
         }
 
         pAdvertising->stop();
-        BLEDevice::deinit(false);
+        NimBLEDevice::deinit(true);
     });
 }

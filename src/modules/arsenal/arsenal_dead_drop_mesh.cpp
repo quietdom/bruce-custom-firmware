@@ -44,7 +44,7 @@ static void loadDrops() {
 
 static void saveDrops() {
     if (!setupSdCard()) return;
-    if (!SD.exists("/arsenal")) SD.mkdir("/arsenal");
+    if (!SD.exists("/arsenal") SD.mkdir("/arsenal");
     if (!SD.exists(DEAD_DROP_PATH)) SD.mkdir(DEAD_DROP_PATH);
     File f = SD.open(String(DEAD_DROP_PATH) + "/drops.txt", FILE_WRITE);
     if (!f) return;
@@ -74,7 +74,7 @@ void arsenal_dead_drop_mesh(void) {
             y += 12;
         }
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("Esc:done", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc:done"), tftWidth / 2, tftHeight - 20, 1);
         while (!check(EscPress)) delay(100);
     }});
 
@@ -122,7 +122,7 @@ void arsenal_dead_drop_mesh(void) {
     options.push_back({"Clear Drops", []() {
         dropCount = 0;
         memset(drops, 0, sizeof(drops));
-        if (setupSdCard() && SD.exists(String(DEAD_DROP_PATH) + "/drops.txt")) {
+        if (setupSdCard() && SD.exists(String(DEAD_DROP_PATH) + "/drops.txt") {
             SD.remove(String(DEAD_DROP_PATH) + "/drops.txt");
         }
         displayRedStripe("Drops cleared");

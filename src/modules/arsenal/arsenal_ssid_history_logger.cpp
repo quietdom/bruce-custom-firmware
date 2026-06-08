@@ -81,8 +81,12 @@ void arsenal_ssid_history_logger(void) {
     esp_wifi_set_promiscuous_rx_cb(ssidPromiscCb);
 
     unsigned long startTime = millis();
+    uint8_t hopChannel = 1;
 
     while (true) {
+        esp_wifi_set_channel(hopChannel, WIFI_SECOND_CHAN_NONE);
+        hopChannel = (hopChannel % 14) + 1;
+
         drawMainBorderWithTitle("SSID History");
         int y = 38;
         tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
@@ -101,13 +105,13 @@ void arsenal_ssid_history_logger(void) {
             shown++;
         }
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("Esc:stop  Sel:save", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc:stop  Sel:save"), tftWidth / 2, tftHeight - 20, 1);
 
         if (check(EscPress)) break;
         if (check(SelPress)) {
             while (check(SelPress)) delay(10);
             if (setupSdCard()) {
-                if (!SD.exists("/arsenal")) SD.mkdir("/arsenal");
+                if (!SD.exists("/arsenal") SD.mkdir("/arsenal");
                 File f = SD.open("/arsenal/ssid_history.log", FILE_APPEND);
                 if (f) {
                     f.printf("\n# session %lu\n", millis());

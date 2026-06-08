@@ -62,7 +62,7 @@ void arsenal_espnow_chat(void) {
     tft.setCursor(12, 45);
     tft.print("Listening for messages...");
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
 
     while (chatRunning) {
         if (chatGotMessage) {
@@ -93,7 +93,7 @@ void arsenal_espnow_chat(void) {
         }
 
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("Esc:stop  Sel:send", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc:stop  Sel:send"), tftWidth / 2, tftHeight - 20, 1);
 
         if (check(EscPress)) break;
         if (check(SelPress)) {

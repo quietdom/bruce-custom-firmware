@@ -1,12 +1,8 @@
 #include "arsenal.h"
 #include "core/display.h"
 #include "core/mykeyboard.h"
-#include <BLEAdvertising.h>
-#include <BLEDevice.h>
+#include <NimBLEDevice.h>
 #include <globals.h>
-
-
-extern "C" int ble_hs_id_set_rnd(const uint8_t *rnd_addr);
 
 
 static const char *SPAM_NAMES[] = {
@@ -45,8 +41,9 @@ static const int NUM_NAMES = sizeof(SPAM_NAMES) / sizeof(SPAM_NAMES[0]);
 
 void arsenal_bt_name_spammer(void) {
     ARSENAL_SAFE_RUN([]() {
-        BLEDevice::init("");
-        BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
+        NimBLEDevice::deinit(true);
+        NimBLEDevice::init("");
+        NimBLEAdvertising *pAdvertising = NimBLEDevice::getAdvertising();
 
         int nameIndex = 0;
         int totalSent = 0;
@@ -54,8 +51,8 @@ void arsenal_bt_name_spammer(void) {
 
         while (true) {
 
-            BLEAdvertisementData advData;
-            BLEAdvertisementData scanRespData;
+            NimBLEAdvertisementData advData;
+            NimBLEAdvertisementData scanRespData;
 
             const char *name = SPAM_NAMES[nameIndex % NUM_NAMES];
             advData.setName(name);
@@ -68,9 +65,12 @@ void arsenal_bt_name_spammer(void) {
             uint8_t addr[6];
             for (int i = 0; i < 6; i++) addr[i] = random(256);
             addr[0] |= 0xC0;
-            BLEDevice::getAdvertising()->stop();
+            NimBLEDevice::getAdvertising()->stop();
 
-            ble_hs_id_set_rnd(addr);
+            NimBLEDevice::setSecurityAuth(false, false, false);
+            NimBLEAddress addrObj;
+            addrObj = NimBLEAddress(addr, BLE_ADDR_RANDOM);
+            esp_ble_gap_set_rand_addr(addrObj.getNative());
 
             pAdvertising->start();
             delay(50);
@@ -111,7 +111,7 @@ void arsenal_bt_name_spammer(void) {
                 tft.print(">" + currentName);
 
                 tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-                tft.drawCentreString("Esc to stop", tftWidth / 2, tftHeight - 20, 1);
+                tft.drawCentreString(String("Esc to stop"), tftWidth / 2, tftHeight - 20, 1);
             }
 
             if (check(EscPress)) break;
@@ -120,6 +120,6 @@ void arsenal_bt_name_spammer(void) {
         }
 
         pAdvertising->stop();
-        BLEDevice::deinit(false);
+        NimBLEDevice::deinit(true);
     });
 }

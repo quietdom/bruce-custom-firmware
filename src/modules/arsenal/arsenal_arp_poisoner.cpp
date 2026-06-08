@@ -47,7 +47,7 @@ void arsenal_arp_poisoner(void) {
     tft.setCursor(12, 60);
     tft.print("Flooding ARP tables...");
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
     delay(1000);
 
     while (true) {
@@ -83,7 +83,7 @@ void arsenal_arp_poisoner(void) {
         tft.setCursor(12, y);
         tft.printf("Hosts: %d", (int)total);
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
 
         esp_task_wdt_reset();
         delay(300);
@@ -96,6 +96,6 @@ done:
     tft.setCursor(12, 55);
     tft.printf("Stopped. Sent %d requests", targets);
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc:done", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc:done"), tftWidth / 2, tftHeight - 20, 1);
     while (!check(EscPress)) delay(100);
 }

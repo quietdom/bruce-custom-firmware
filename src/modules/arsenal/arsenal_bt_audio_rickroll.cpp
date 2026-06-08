@@ -1,11 +1,11 @@
 #include "arsenal.h"
+
+#if !LITE_VERSION
+
 #include "core/display.h"
 #include "core/mykeyboard.h"
-#include <BLEDevice.h>
-#include <BLEAdvertising.h>
+#include <NimBLEDevice.h>
 #include <globals.h>
-
-extern "C" int ble_hs_id_set_rnd(const uint8_t *rnd_addr);
 
 static const uint8_t RICKROLL_AUDIO[] = {
     0x44, 0x03, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00,
@@ -21,10 +21,11 @@ void arsenal_bt_audio_rickroll(void) {
     tft.setCursor(12, 45);
     tft.print("Scanning for audio devices...");
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc:cancel", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc:cancel"), tftWidth / 2, tftHeight - 20, 1);
 
-    BLEDevice::init("Rick Astley");
-    BLEScan *pScan = BLEDevice::getScan();
+    NimBLEDevice::deinit(true);
+    NimBLEDevice::init("Rick Astley");
+    NimBLEScan *pScan = NimBLEDevice::getScan();
     pScan->setActiveScan(false);
     pScan->setInterval(100);
     pScan->setWindow(99);
@@ -38,16 +39,16 @@ void arsenal_bt_audio_rickroll(void) {
     FoundDevice devices[8];
     int devCount = 0;
 
-    class RickScanCb : public BLEAdvertisedDeviceCallbacks {
+    class RickScanCb : public NimBLEScanCallbacks {
     public:
         FoundDevice *list;
         int *count;
         RickScanCb(FoundDevice *d, int *c) : list(d), count(c) {}
-        void onResult(BLEAdvertisedDevice dev) override {
+        void onResult(NimBLEAdvertisedDevice *dev) override {
             if (*count >= 8) return;
-            String name = dev.getName().c_str();
-            String addr = dev.getAddress().toString().c_str();
-            int8_t rssi = dev.getRSSI();
+            String name = dev->getName().c_str();
+            String addr = dev->getAddress().toString().c_str();
+            int8_t rssi = dev->getRSSI();
             bool isAudio = false;
             String lower = name;
             lower.toLowerCase();
@@ -58,9 +59,9 @@ void arsenal_bt_audio_rickroll(void) {
                 lower.indexOf("bose") >= 0 || lower.indexOf("beats") >= 0)
                 isAudio = true;
 
-            if (dev.haveServiceUUID()) {
-                if (dev.isAdvertisingService(BLEUUID((uint16_t)0x110B)) ||
-                    dev.isAdvertisingService(BLEUUID((uint16_t)0x110A)))
+            if (dev->haveServiceUUID()) {
+                if (dev->isAdvertisingService(NimBLEUUID((uint16_t)0x110B)) ||
+                    dev->isAdvertisingService(NimBLEUUID((uint16_t)0x110A)))
                     isAudio = true;
             }
 
@@ -77,13 +78,13 @@ void arsenal_bt_audio_rickroll(void) {
     };
 
     RickScanCb cb(devices, &devCount);
-    pScan->setAdvertisedDeviceCallbacks(&cb);
+    pScan->setScanCallbacks(&cb);
     pScan->start(5, false);
     pScan->clearResults();
 
     if (devCount == 0) {
         displayRedStripe("No devices found");
-        BLEDevice::deinit(false);
+        NimBLEDevice::deinit(true);
         return;
     }
 
@@ -101,7 +102,7 @@ void arsenal_bt_audio_rickroll(void) {
     loopOptions(options, MENU_TYPE_SUBMENU, "Target Device");
 
     if (targetIdx < 0) {
-        BLEDevice::deinit(false);
+        NimBLEDevice::deinit(true);
         return;
     }
 
@@ -113,9 +114,9 @@ void arsenal_bt_audio_rickroll(void) {
     tft.setCursor(12, 66);
     tft.print("Sending rickroll...");
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
 
-    BLEAdvertising *pAdv = BLEDevice::getAdvertising();
+    NimBLEAdvertising *pAdv = NimBLEDevice::getAdvertising();
     int count = 0;
 
     while (!check(EscPress)) {
@@ -123,11 +124,14 @@ void arsenal_bt_audio_rickroll(void) {
         for (int i = 0; i < 6; i++) addr[i] = random(256);
         addr[0] |= 0xC0;
         addr[0] &= 0xFE;
-        BLEDevice::getAdvertising()->stop();
-        ble_hs_id_set_rnd(addr);
+        NimBLEDevice::getAdvertising()->stop();
+        NimBLEDevice::setSecurityAuth(false, false, false);
+        NimBLEAddress addrObj;
+        addrObj = NimBLEAddress(addr, BLE_ADDR_RANDOM);
+        esp_ble_gap_set_rand_addr(addrObj.getNative());
 
-        BLEAdvertisementData advData;
-        String payload = "";
+        NimBLEAdvertisementData advData;
+        std::string payload;
         for (int i = 0; i < 16; i++) payload += (char)RICKROLL_AUDIO[i];
         advData.setManufacturerData(payload);
         advData.setFlags(0x06);
@@ -148,11 +152,13 @@ void arsenal_bt_audio_rickroll(void) {
             tft.setCursor(12, y);
             tft.printf("Packets sent: %d", count);
             tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-            tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+            tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
         }
         esp_task_wdt_reset();
     }
 
     pAdv->stop();
-    BLEDevice::deinit(false);
+    NimBLEDevice::deinit(true);
 }
+
+#endif

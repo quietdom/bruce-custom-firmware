@@ -71,7 +71,7 @@ void arsenal_oui_lookup(void) {
             tft.print("One entry per line");
 
             tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-            tft.drawCentreString("Press any key", tftWidth / 2, tftHeight - 20, 1);
+            tft.drawCentreString(String("Press any key"), tftWidth / 2, tftHeight - 20, 1);
 
             while (!check(EscPress) && !check(SelPress)) delay(100);
             return;
@@ -81,7 +81,7 @@ void arsenal_oui_lookup(void) {
         drawMainBorderWithTitle("OUI Lookup");
         tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
         tft.setTextSize(FP);
-        tft.drawCentreString("Scanning WiFi...", tftWidth / 2, tftHeight / 2, 1);
+        tft.drawCentreString(String("Scanning WiFi..."), tftWidth / 2, tftHeight / 2, 1);
 
         WiFi.mode(WIFI_STA);
         int n = WiFi.scanNetworks(false, true);

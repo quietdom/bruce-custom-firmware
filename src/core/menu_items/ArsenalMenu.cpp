@@ -44,20 +44,11 @@ void ArsenalMenu::optionsMenu() {
 
 void ArsenalMenu::wifiArsenalMenu() {
     options = {
-        {"Network Scanner",    arsenal_network_scanner          },
-        {"DHCP Starvation",    arsenal_dhcp_starvation          },
-        {"Karma Attack",       arsenal_karma_attack             },
         {"DNS Spoofer",        arsenal_dns_spoofer              },
-        {"Portal Templates",   arsenal_captive_portal_templates },
         {"Auto-Phish Portal",  arsenal_captive_portal_autophish },
         {"Cred Forward",       arsenal_cred_forward             },
-        {"WiFi Brute Force",   arsenal_wifi_bruteforce          },
-        {"WPA Grabber",        arsenal_wpa_handshake_grabber    },
-        {"Beacon Flood",       arsenal_beacon_flood             },
-        {"Selective Deauth",   arsenal_selective_deauth         },
         {"Auth Flood",         arsenal_auth_flood               },
         {"AP Clone Flood",     arsenal_ap_clone_flood           },
-        {"ARP Poisoner",       arsenal_arp_poisoner             },
         {"SSL Strip Lite",     arsenal_ssl_strip                },
         {"UPnP Port Opener",   arsenal_upnp_port_opener         },
         {"Default Creds",      arsenal_default_cred_scanner     },
@@ -71,12 +62,10 @@ void ArsenalMenu::wifiArsenalMenu() {
 
 void ArsenalMenu::bleArsenalMenu() {
     options = {
-        {"BLE Tracker",        arsenal_ble_tracker              },
-        {"Name Spammer",       arsenal_bt_name_spammer          },
-        {"AirTag Spoofer",     arsenal_airtag_spoofer           },
-        {"Audio Jammer",       arsenal_bt_audio_jammer          },
         {"Notif Spoofer",      arsenal_sms_notification_spoofer },
+#if !LITE_VERSION
         {"BT Rickroll",        arsenal_bt_audio_rickroll        },
+#endif
         {"Device Profiler",    arsenal_bt_device_profiler       },
         {"Back",               [this]() { optionsMenu(); }      },
     };
@@ -85,15 +74,15 @@ void ArsenalMenu::bleArsenalMenu() {
 
 void ArsenalMenu::intelligenceMenu() {
     options = {
-        {"Fingerprinter",      arsenal_device_fingerprinter     },
         {"OPSEC Monitor",      arsenal_opsec_monitor            },
         {"OUI Lookup",         arsenal_oui_lookup               },
         {"Probe Log",          arsenal_wifi_probe_log           },
-        {"SSID History",       arsenal_ssid_history_logger      },
         {"Banner Grabber",     arsenal_service_banner_grabber   },
         {"SmartHome Scan",     arsenal_smart_home_scanner       },
         {"Channel Chart",      arsenal_wifi_channel_chart       },
+#if !LITE_VERSION
         {"People Counter",     arsenal_people_counter           },
+#endif
         {"Device Nickname",    arsenal_device_nickname          },
         {"Back",               [this]() { optionsMenu(); }      },
     };
@@ -106,7 +95,6 @@ void ArsenalMenu::evasionMenu() {
         {"Channel Hopper",     arsenal_channel_hopper           },
         {"Decoy Traffic",      arsenal_decoy_traffic            },
         {"Identity Cloner",    arsenal_identity_cloner          },
-        {"QR Poisoner",        arsenal_qr_poisoner              },
         {"Time Randomizer",    arsenal_time_based_randomizer    },
         {"Back",               [this]() { optionsMenu(); }      },
     };
@@ -115,10 +103,12 @@ void ArsenalMenu::evasionMenu() {
 
 void ArsenalMenu::rfMenu() {
     options = {
+#if !LITE_VERSION
         {"NRF24 MouseJack",    arsenal_nrf24_mousejack          },
         {"Doorbell Replay",    arsenal_doorbell_replay          },
         {"Garage Brute Force", arsenal_garage_brute_force       },
         {"Keyfob Logger",      arsenal_car_keyfob_logger        },
+#endif
         {"Frequency Scanner",  arsenal_frequency_scanner        },
         {"Flipper Import",     arsenal_flipper_import           },
         {"Back",               [this]() { optionsMenu(); }      },
@@ -139,9 +129,11 @@ void ArsenalMenu::phishingMenu() {
 
 void ArsenalMenu::detectionMenu() {
     options = {
+#if !LITE_VERSION
         {"Flipper Detector",   arsenal_flipper_detector         },
         {"Hacker Detector",    arsenal_hacker_detector          },
         {"RF Silence",         arsenal_rf_silence_enforcer      },
+#endif
         {"Back",               [this]() { optionsMenu(); }      },
     };
     loopOptions(options, MENU_TYPE_SUBMENU, "Detection");
@@ -161,8 +153,9 @@ void ArsenalMenu::commsMenu() {
 
 void ArsenalMenu::utilityMenu() {
     options = {
-        {"Password Gen",       arsenal_password_generator       },
+#if !LITE_VERSION
         {"NFC Biz Card",       arsenal_nfc_business_card        },
+#endif
         {"Attack Stats",       arsenal_attack_stats             },
         {"Back",               [this]() { optionsMenu(); }      },
     };

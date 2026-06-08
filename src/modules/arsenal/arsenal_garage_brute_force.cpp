@@ -1,4 +1,7 @@
 #include "arsenal.h"
+
+#if !LITE_VERSION
+
 #include "core/display.h"
 #include "core/mykeyboard.h"
 #include "modules/rf/rf_utils.h"
@@ -21,7 +24,7 @@ void arsenal_garage_brute_force(void) {
     tft.setCursor(12, 60);
     tft.print("Scans 4096 codes on 433MHz");
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc to cancel", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc to cancel"), tftWidth / 2, tftHeight - 20, 1);
     delay(1500);
 
     options.clear();
@@ -32,3 +35,5 @@ void arsenal_garage_brute_force(void) {
     addOptionToMainMenu();
     loopOptions(options, MENU_TYPE_SUBMENU, "Protocol");
 }
+
+#endif

@@ -142,7 +142,7 @@ void arsenal_upnp_port_opener(void) {
     tft.setCursor(12, 82);
     tft.printf("IP: %s", dev.ip);
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc:done", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc:done"), tftWidth / 2, tftHeight - 20, 1);
 
     while (!check(EscPress)) delay(100);
 }

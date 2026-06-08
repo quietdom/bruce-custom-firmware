@@ -75,7 +75,7 @@ void arsenal_mac_rotator(void) {
             tft.printf("Next in: %lus", nextIn / 1000);
 
             tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-            tft.drawCentreString("Esc to stop | Sel to rotate now", tftWidth / 2, tftHeight - 20, 1);
+            tft.drawCentreString(String("Esc to stop | Sel to rotate now"), tftWidth / 2, tftHeight - 20, 1);
 
 
             if (millis() - lastRotation >= rotationInterval) {

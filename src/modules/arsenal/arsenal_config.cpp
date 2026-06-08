@@ -39,7 +39,7 @@ void arsenal_config_load(void) {
     if (g_configLoaded) return;
     if (!setupSdCard()) { g_configLoaded = true; return; }
 
-    if (!SD.exists("/arsenal/config.txt")) {
+    if (!SD.exists("/arsenal/config.txt") {
         g_configLoaded = true;
         return;
     }
@@ -69,7 +69,7 @@ void arsenal_config_load(void) {
 
 void arsenal_config_save(void) {
     if (!setupSdCard()) return;
-    if (!SD.exists("/arsenal")) SD.mkdir("/arsenal");
+    if (!SD.exists("/arsenal") SD.mkdir("/arsenal");
 
     File f = SD.open("/arsenal/config.txt", FILE_WRITE);
     if (!f) return;
@@ -107,9 +107,9 @@ bool arsenal_pin_check(void) {
     drawMainBorderWithTitle("PIN Lock");
     tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
     tft.setTextSize(FM);
-    tft.drawCentreString("Enter 4-digit PIN", tftWidth / 2, 60, 1);
+    tft.drawCentreString(String("Enter 4-digit PIN"), tftWidth / 2, 60, 1);
     tft.setTextSize(FP);
-    tft.drawCentreString("Sel=next  Esc=cancel", tftWidth / 2, 80, 1);
+    tft.drawCentreString(String("Sel=next  Esc=cancel"), tftWidth / 2, 80, 1);
 
     int digitY = 110;
     while (pos < 4) {
@@ -119,7 +119,7 @@ bool arsenal_pin_check(void) {
             tft.drawRect(boxX, digitY, 24, 32, bruceConfig.priColor);
             if (i < pos) {
                 tft.setTextColor(TFT_GREEN, bruceConfig.bgColor);
-                tft.drawCentreString("*", boxX + 12, digitY + 8, 1);
+                tft.drawCentreString(String("*"), boxX + 12, digitY + 8, 1);
             } else if (i == pos) {
                 tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
                 tft.drawCentreString(String(entered[i]), boxX + 12, digitY + 8, 1);
@@ -183,13 +183,13 @@ static void showConfigEditor(int focus) {
         options.push_back({String("AP SSID: ") + g_config.apSsid, [&dirty]() {
             if (editField("AP SSID (max 32)", g_config.apSsid, sizeof(g_config.apSsid))) dirty = true;
         }});
-        options.push_back({String("AP Pass: ") + String(strlen(g_config.apPass) > 0 ? "********" : "(none)"), [&dirty]() {
+        options.push_back({String("AP Pass: ") + String(strlen(g_config.apPass) > 0 ? "********" : "(none)", [&dirty]() {
             if (editField("AP Password (8-63)", g_config.apPass, sizeof(g_config.apPass), true)) dirty = true;
         }});
         options.push_back({String("Dash User: ") + g_config.dashUser, [&dirty]() {
             if (editField("Dashboard User", g_config.dashUser, sizeof(g_config.dashUser))) dirty = true;
         }});
-        options.push_back({String("Dash Pass: ") + String(strlen(g_config.dashPass) > 0 ? "********" : "(none)"), [&dirty]() {
+        options.push_back({String("Dash Pass: ") + String(strlen(g_config.dashPass) > 0 ? "********" : "(none)", [&dirty]() {
             if (editField("Dashboard Password", g_config.dashPass, sizeof(g_config.dashPass), true)) dirty = true;
         }});
 
@@ -257,7 +257,7 @@ void arsenal_pin_lock(void) {
         }});
         options.push_back({"Disable PIN", []() {
             arsenal_pin_clear();
-            displayRedStripe("PIN disabled");
+                displayRedStripe("PIN disabled");
             delay(1000);
         }});
         options.push_back({"Verify PIN", []() {
@@ -293,7 +293,7 @@ ArsenalStats &arsenal_stats(void) { return g_stats; }
 
 void arsenal_stats_load(void) {
     if (!setupSdCard()) return;
-    if (!SD.exists("/arsenal/stats.json")) return;
+    if (!SD.exists("/arsenal/stats.json") return;
 
     File f = SD.open("/arsenal/stats.json", FILE_READ);
     if (!f) return;
@@ -306,16 +306,16 @@ void arsenal_stats_load(void) {
                                 .toInt()
 
     int idx;
-    if ((idx = content.indexOf("\"creds\":")) >= 0)       g_stats.credsCaptured    = (uint32_t)content.substring(idx + 8).toInt();
-    if ((idx = content.indexOf("\"devices\":")) >= 0)     g_stats.devicesSeen       = (uint32_t)content.substring(idx + 10).toInt();
-    if ((idx = content.indexOf("\"attacks\":")) >= 0)     g_stats.attacksRun        = (uint32_t)content.substring(idx + 10).toInt();
-    if ((idx = content.indexOf("\"probes\":")) >= 0)      g_stats.probesLogged      = (uint32_t)content.substring(idx + 9).toInt();
-    if ((idx = content.indexOf("\"portals\":")) >= 0)     g_stats.portalsServed     = (uint32_t)content.substring(idx + 10).toInt();
-    if ((idx = content.indexOf("\"handshakes\":")) >= 0)  g_stats.wpaHandshakes     = (uint32_t)content.substring(idx + 13).toInt();
-    if ((idx = content.indexOf("\"deauths\":")) >= 0)     g_stats.deauthsDetected   = (uint32_t)content.substring(idx + 10).toInt();
-    if ((idx = content.indexOf("\"ble\":")) >= 0)         g_stats.bleDevicesSeen    = (uint32_t)content.substring(idx + 6).toInt();
-    if ((idx = content.indexOf("\"passwords\":")) >= 0)   g_stats.passwordsGenerated = (uint32_t)content.substring(idx + 12).toInt();
-    if ((idx = content.indexOf("\"combos\":")) >= 0)      g_stats.combosExecuted    = (uint32_t)content.substring(idx + 9).toInt();
+    if ((idx = content.indexOf("\"creds\":") >= 0)       g_stats.credsCaptured    = (uint32_t)content.substring(idx + 8).toInt();
+    if ((idx = content.indexOf("\"devices\":") >= 0)     g_stats.devicesSeen       = (uint32_t)content.substring(idx + 10).toInt();
+    if ((idx = content.indexOf("\"attacks\":") >= 0)     g_stats.attacksRun        = (uint32_t)content.substring(idx + 10).toInt();
+    if ((idx = content.indexOf("\"probes\":") >= 0)      g_stats.probesLogged      = (uint32_t)content.substring(idx + 9).toInt();
+    if ((idx = content.indexOf("\"portals\":") >= 0)     g_stats.portalsServed     = (uint32_t)content.substring(idx + 10).toInt();
+    if ((idx = content.indexOf("\"handshakes\":") >= 0)  g_stats.wpaHandshakes     = (uint32_t)content.substring(idx + 13).toInt();
+    if ((idx = content.indexOf("\"deauths\":") >= 0)     g_stats.deauthsDetected   = (uint32_t)content.substring(idx + 10).toInt();
+    if ((idx = content.indexOf("\"ble\":") >= 0)         g_stats.bleDevicesSeen    = (uint32_t)content.substring(idx + 6).toInt();
+    if ((idx = content.indexOf("\"passwords\":") >= 0)   g_stats.passwordsGenerated = (uint32_t)content.substring(idx + 12).toInt();
+    if ((idx = content.indexOf("\"combos\":") >= 0)      g_stats.combosExecuted    = (uint32_t)content.substring(idx + 9).toInt();
 
     #undef PARSE_U32
 }
@@ -323,7 +323,7 @@ void arsenal_stats_load(void) {
 
 void arsenal_stats_save(void) {
     if (!setupSdCard()) return;
-    if (!SD.exists("/arsenal")) SD.mkdir("/arsenal");
+    if (!SD.exists("/arsenal") SD.mkdir("/arsenal");
 
     File f = SD.open("/arsenal/stats.json", FILE_WRITE);
     if (!f) return;
@@ -407,7 +407,7 @@ void arsenal_attack_stats(void) {
         tft.printf("Up: %s", formatDuration(millis()).c_str());
 
         tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-        tft.drawCentreString("Sel=menu  Esc=exit", tftWidth / 2, tftHeight - 10, 1);
+        tft.drawCentreString(String("Sel=menu  Esc=exit"), tftWidth / 2, tftHeight - 10, 1);
 
         if (check(SelPress)) {
             while (check(SelPress)) delay(10);

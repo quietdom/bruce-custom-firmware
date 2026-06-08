@@ -82,7 +82,7 @@ void arsenal_dhcp_starvation(void) {
 
             tft.setTextColor(TFT_RED, bruceConfig.bgColor);
             tft.setTextSize(FM);
-            tft.drawCentreString("FLOODING", tftWidth / 2, y, 1);
+            tft.drawCentreString(String("FLOODING"), tftWidth / 2, y, 1);
             y += 24;
 
             tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
@@ -105,7 +105,7 @@ void arsenal_dhcp_starvation(void) {
             tft.printf("Speed: %d (Up/Down)", speed);
 
             tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-            tft.drawCentreString("Esc to stop", tftWidth / 2, tftHeight - 20, 1);
+            tft.drawCentreString(String("Esc to stop"), tftWidth / 2, tftHeight - 20, 1);
 
 
             for (int i = 0; i < speed; i++) {

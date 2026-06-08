@@ -84,7 +84,7 @@ static void executeScript(String filepath) {
             f.close();
         }
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("Press Sel to run, Esc to cancel", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Press Sel to run, Esc to cancel"), tftWidth / 2, tftHeight - 20, 1);
         while (true) {
             if (check(EscPress)) return;
             if (check(SelPress)) {
@@ -105,7 +105,7 @@ static void executeScript(String filepath) {
         tft.setCursor(12, 70);
         tft.print("Press Sel to transmit");
         tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-        tft.drawCentreString("Esc to cancel", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc to cancel"), tftWidth / 2, tftHeight - 20, 1);
         while (true) {
             if (check(EscPress)) return;
             if (check(SelPress)) {
@@ -126,7 +126,7 @@ static void executeScript(String filepath) {
         tft.setCursor(12, 70);
         tft.print("Press Sel to transmit");
         tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-        tft.drawCentreString("Esc to cancel", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc to cancel"), tftWidth / 2, tftHeight - 20, 1);
         while (true) {
             if (check(EscPress)) return;
             if (check(SelPress)) {
@@ -153,7 +153,7 @@ static void executeScript(String filepath) {
         tft.setCursor(12, 90);
         tft.print("Press Sel to launch portal");
         tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-        tft.drawCentreString("Esc to cancel", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc to cancel"), tftWidth / 2, tftHeight - 20, 1);
         while (true) {
             if (check(EscPress)) return;
             if (check(SelPress)) {
@@ -174,7 +174,7 @@ static void executeScript(String filepath) {
         tft.setCursor(12, 70);
         tft.print("Press Sel to execute");
         tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-        tft.drawCentreString("Esc to cancel", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc to cancel"), tftWidth / 2, tftHeight - 20, 1);
         while (true) {
             if (check(EscPress)) return;
             if (check(SelPress)) {
@@ -201,7 +201,7 @@ static void executeScript(String filepath) {
             f.close();
         }
         tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-        tft.drawCentreString("Press any key", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Press any key"), tftWidth / 2, tftHeight - 20, 1);
         while (!check(EscPress) && !check(SelPress)) delay(100);
     }
 }
@@ -310,7 +310,7 @@ void arsenal_script_browser(void) {
         tft.setCursor(12, y); tft.print("/arsenal/rfid/"); y += 12;
         tft.setCursor(12, y); tft.print("/arsenal/scripts/"); y += 16;
         tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-        tft.drawCentreString("Press any key", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Press any key"), tftWidth / 2, tftHeight - 20, 1);
         while (!check(EscPress) && !check(SelPress)) delay(100);
         return;
     }

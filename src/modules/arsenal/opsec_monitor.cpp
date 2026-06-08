@@ -1,4 +1,5 @@
 #include "arsenal.h"
+#include "arsenal_background.h"
 #include "core/display.h"
 #include "core/mykeyboard.h"
 #include <WiFi.h>
@@ -17,7 +18,6 @@ struct OpsecState {
     int probeResponseFlood;
     int directedProbes;
     int rssiAnomalies;
-    int pmfNetworks;
     unsigned long startTime;
     String lastAlert;
 };
@@ -102,6 +102,8 @@ void arsenal_opsec_monitor(void) {
         opsec.level = THREAT_CLEAR;
         opsec.lastAlert = "None";
 
+        bool bgWasRunning = arsenal_background_is_running();
+        if (bgWasRunning) arsenal_background_stop();
 
         esp_wifi_get_mac(WIFI_IF_STA, ourMAC);
 
@@ -163,10 +165,6 @@ void arsenal_opsec_monitor(void) {
             tft.setCursor(padX, y);
             tft.printf("Directed probes: %d", opsec.directedProbes);
             tft.fillCircle(tftWidth - 20, y + 4, 4, opsec.directedProbes > 0 ? TFT_RED : TFT_DARKGREEN);
-            y += 13;
-
-            tft.setCursor(padX, y);
-            tft.printf("PMF networks: %d", opsec.pmfNetworks);
             y += 16;
 
 
@@ -182,7 +180,7 @@ void arsenal_opsec_monitor(void) {
             tft.printf("Monitoring: %lum %lus", elapsed / 60, elapsed % 60);
 
             tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-            tft.drawCentreString("Esc to stop", tftWidth / 2, tftHeight - 18, 1);
+            tft.drawCentreString(String("Esc to stop"), tftWidth / 2, tftHeight - 18, 1);
 
             if (check(EscPress)) break;
             esp_task_wdt_reset();
@@ -191,5 +189,6 @@ void arsenal_opsec_monitor(void) {
 
         opsecRunning = false;
         esp_wifi_set_promiscuous(false);
+        if (bgWasRunning) arsenal_background_start();
     });
 }

@@ -212,7 +212,7 @@ static std::vector<ComboPreset> loadCombos() {
     combos.push_back(recon);
 
 
-    if (setupSdCard() && SD.exists("/arsenal/combos")) {
+    if (setupSdCard() && SD.exists("/arsenal/combos") {
         File dir = SD.open("/arsenal/combos");
         while (true) {
             File entry = dir.openNextFile();
@@ -220,13 +220,13 @@ static std::vector<ComboPreset> loadCombos() {
             if (!entry.isDirectory()) {
                 String filename = String(entry.name());
                 filename = filename.substring(filename.lastIndexOf('/') + 1);
-                if (filename.endsWith(".txt")) {
+                if (filename.endsWith(".txt") {
                     ComboPreset userCombo;
                     userCombo.name = filename.substring(0, filename.length() - 4);
                     while (entry.available()) {
                         String line = entry.readStringUntil('\n');
                         line.trim();
-                        if (line.length() > 0 && !line.startsWith("#")) {
+                        if (line.length() > 0 && !line.startsWith("#") {
                             userCombo.features.push_back(line);
                         }
                     }
@@ -263,7 +263,7 @@ void arsenal_combo_menu(void) {
                 y += 12;
             }
             tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-            tft.drawCentreString("Activating...", tftWidth / 2, tftHeight - 20, 1);
+            tft.drawCentreString(String("Activating..."), tftWidth / 2, tftHeight - 20, 1);
             delay(1500);
 
 
@@ -295,7 +295,7 @@ void arsenal_combo_menu(void) {
         tft.setCursor(12, 126);
         tft.print("decoy_traffic");
         tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-        tft.drawCentreString("Press any key", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Press any key"), tftWidth / 2, tftHeight - 20, 1);
         while (!check(EscPress) && !check(SelPress)) delay(100);
     }});
 

@@ -1,9 +1,7 @@
 #include "arsenal.h"
 #include "core/display.h"
 #include "core/mykeyboard.h"
-#include <BLEAdvertisedDevice.h>
-#include <BLEDevice.h>
-#include <BLEScan.h>
+#include <NimBLEDevice.h>
 #include <globals.h>
 
 struct TrackedDevice {
@@ -18,14 +16,14 @@ struct TrackedDevice {
 };
 
 static std::vector<TrackedDevice> trackedDevices;
-static BLEScan *bleScan = nullptr;
+static NimBLEScan *bleScan = nullptr;
 static bool trackerAlert = false;
 static const int TRACKER_THRESHOLD = 5;
 
 
-static bool isAirTag(BLEAdvertisedDevice &dev) {
+static bool isAirTag(NimBLEAdvertisedDevice &dev) {
     if (dev.haveManufacturerData()) {
-        String mfgData = dev.getManufacturerData();
+        std::string mfgData = dev.getManufacturerData();
 
         if (mfgData.length() >= 2) {
             if ((uint8_t)mfgData[0] == 0x4C && (uint8_t)mfgData[1] == 0x00) {
@@ -40,9 +38,9 @@ static bool isAirTag(BLEAdvertisedDevice &dev) {
 }
 
 
-static bool isSmartTag(BLEAdvertisedDevice &dev) {
+static bool isSmartTag(NimBLEAdvertisedDevice &dev) {
     if (dev.haveManufacturerData()) {
-        String mfgData = dev.getManufacturerData();
+        std::string mfgData = dev.getManufacturerData();
 
         if (mfgData.length() >= 2) {
             if ((uint8_t)mfgData[0] == 0x75 && (uint8_t)mfgData[1] == 0x00) {
@@ -54,27 +52,27 @@ static bool isSmartTag(BLEAdvertisedDevice &dev) {
 }
 
 
-static bool isTile(BLEAdvertisedDevice &dev) {
+static bool isTile(NimBLEAdvertisedDevice &dev) {
     if (dev.haveServiceUUID()) {
 
-        return dev.isAdvertisingService(BLEUUID("0000feed-0000-1000-8000-00805f9b34fb"));
+        return dev.isAdvertisingService(NimBLEUUID("0000feed-0000-1000-8000-00805f9b34fb");
     }
     return false;
 }
 
-static String identifyDevice(BLEAdvertisedDevice &dev) {
+static String identifyDevice(NimBLEAdvertisedDevice &dev) {
     if (isAirTag(dev)) return "AirTag";
     if (isSmartTag(dev)) return "SmartTag";
     if (isTile(dev)) return "Tile";
     return "";
 }
 
-class ArsenalBLECallbacks : public BLEAdvertisedDeviceCallbacks {
-    void onResult(BLEAdvertisedDevice advertisedDevice) override {
-        String addr = advertisedDevice.getAddress().toString().c_str();
-        int rssi = advertisedDevice.getRSSI();
-        String name = advertisedDevice.haveName() ? advertisedDevice.getName().c_str() : "";
-        String type = identifyDevice(advertisedDevice);
+class ArsenalBLECallbacks : public NimBLEScanCallbacks {
+    void onResult(NimBLEAdvertisedDevice *advertisedDevice) override {
+        String addr = advertisedDevice->getAddress().toString().c_str();
+        int rssi = advertisedDevice->getRSSI();
+        String name = advertisedDevice->haveName() ? advertisedDevice->getName().c_str() : "";
+        String type = identifyDevice(*advertisedDevice);
 
 
         bool found = false;
@@ -115,9 +113,10 @@ void arsenal_ble_tracker(void) {
         trackedDevices.clear();
         trackerAlert = false;
 
-        BLEDevice::init("");
-        bleScan = BLEDevice::getScan();
-        bleScan->setAdvertisedDeviceCallbacks(new ArsenalBLECallbacks(), true);
+        NimBLEDevice::deinit(true);
+        NimBLEDevice::init("");
+        bleScan = NimBLEDevice::getScan();
+        bleScan->setScanCallbacks(new ArsenalBLECallbacks());
         bleScan->setActiveScan(true);
         bleScan->setInterval(100);
         bleScan->setWindow(99);
@@ -140,7 +139,7 @@ void arsenal_ble_tracker(void) {
                 tft.fillRect(padX, y, tftWidth - 2 * padX, 18, TFT_RED);
                 tft.setTextColor(TFT_WHITE, TFT_RED);
                 tft.setTextSize(FP);
-                tft.drawCentreString("! TRACKER DETECTED !", tftWidth / 2, y + 3, 1);
+                tft.drawCentreString(String("! TRACKER DETECTED !"), tftWidth / 2, y + 3, 1);
                 y += 22;
             }
 
@@ -179,14 +178,14 @@ void arsenal_ble_tracker(void) {
             }
 
             tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-            tft.drawCentreString("Esc to stop", tftWidth / 2, tftHeight - 18, 1);
+            tft.drawCentreString(String("Esc to stop"), tftWidth / 2, tftHeight - 18, 1);
 
             if (check(EscPress)) break;
             esp_task_wdt_reset();
         }
 
         bleScan->stop();
-        BLEDevice::deinit(false);
+        NimBLEDevice::deinit(true);
         trackedDevices.clear();
     });
 }

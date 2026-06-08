@@ -203,7 +203,7 @@ void arsenal_device_fingerprinter(void) {
             }
 
             tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-            tft.drawCentreString("Esc:stop Sel:details", tftWidth / 2, tftHeight - 18, 1);
+            tft.drawCentreString(String("Esc:stop Sel:details"), tftWidth / 2, tftHeight - 18, 1);
 
             if (check(EscPress)) break;
 
@@ -223,7 +223,7 @@ void arsenal_device_fingerprinter(void) {
                         tft.setCursor(8, dy); tft.print("MAC: " + macStr(d.mac)); dy += 14;
                         tft.setCursor(8, dy); tft.print("OS: " + d.osGuess); dy += 14;
                         tft.setCursor(8, dy); tft.print("Vendor: " + d.vendor.substring(0, 20)); dy += 14;
-                        tft.setCursor(8, dy); tft.printf("RSSI: %ddB", d.rssi); dy += 14;
+                        tft.setCursor(8, dy);                         tft.printf("RSSI: %ddB", d.rssi); dy += 14;
                         tft.setCursor(8, dy); tft.printf("Probes: %d", d.probeCount); dy += 14;
                         tft.setCursor(8, dy); tft.printf("Random MAC: %s", d.randomizedMAC ? "Yes" : "No"); dy += 14;
                         tft.setCursor(8, dy); tft.print("SSIDs:"); dy += 12;

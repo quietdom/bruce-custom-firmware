@@ -129,7 +129,7 @@ void arsenal_dns_tunnel(void) {
     tft.setCursor(12, 66);
     tft.printf("Domain: %s", tunnelDomain);
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
 
     while (dnsTunnelActive) {
         int packetSize = dnsUDP.parsePacket();
@@ -159,7 +159,7 @@ void arsenal_dns_tunnel(void) {
                 tft.printf("Last: %s", preview);
             }
             tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-            tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+            tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
         }
 
         if (check(EscPress)) dnsTunnelActive = false;
@@ -170,7 +170,7 @@ void arsenal_dns_tunnel(void) {
     dnsUDP.stop();
 
     if (tunnelIdx > 0 && setupSdCard()) {
-        if (!SD.exists("/arsenal")) SD.mkdir("/arsenal");
+        if (!SD.exists("/arsenal") SD.mkdir("/arsenal");
         File f = SD.open("/arsenal/dns_tunnel.txt", FILE_WRITE);
         if (f) {
             f.write(tunnelData, tunnelIdx);

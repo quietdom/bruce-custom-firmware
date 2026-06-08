@@ -19,7 +19,7 @@ static int nickCount = 0;
 static void loadNicks() {
     nickCount = 0;
     if (!setupSdCard()) return;
-    if (!SD.exists("/arsenal/nicknames.txt")) return;
+    if (!SD.exists("/arsenal/nicknames.txt") return;
     File f = SD.open("/arsenal/nicknames.txt", FILE_READ);
     if (!f) return;
     while (f.available() && nickCount < MAX_NICKS) {
@@ -46,7 +46,7 @@ static void loadNicks() {
 
 static void saveNicks() {
     if (!setupSdCard()) return;
-    if (!SD.exists("/arsenal")) SD.mkdir("/arsenal");
+    if (!SD.exists("/arsenal") SD.mkdir("/arsenal");
     File f = SD.open("/arsenal/nicknames.txt", FILE_WRITE);
     if (!f) return;
     for (int i = 0; i < nickCount; i++) {
@@ -86,7 +86,7 @@ void arsenal_device_nickname(void) {
         tft.setCursor(12, 76);
         tft.print("then name after comma");
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("See serial for input", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("See serial for input"), tftWidth / 2, tftHeight - 20, 1);
 
         Serial.println("[Nick] Enter MAC,name (e.g. AA:BB:CC:DD:EE:FF,MyPhone):");
         unsigned long start = millis();
@@ -131,12 +131,12 @@ void arsenal_device_nickname(void) {
         tft.setTextSize(FP);
         for (int i = 0; i < nickCount && i < 10; i++) {
             tft.setCursor(12, y);
-            tft.printf("%02X:%02X..%s = %s",
+            tft.printf("%02X:%02X..%s",
                 nicks[i].mac[0], nicks[i].mac[1], nicks[i].name);
             y += 12;
         }
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("Esc:done", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc:done"), tftWidth / 2, tftHeight - 20, 1);
         while (!check(EscPress)) delay(100);
     }});
 

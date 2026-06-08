@@ -43,7 +43,7 @@ void arsenal_ssl_strip(void) {
 
     stripServer->on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
         String host = request->host();
-        if (request->hasHeader("Referer")) {
+        if (request->hasHeader("Referer") {
             AsyncWebHeader *ref = request->getHeader("Referer");
             if (ref->value().indexOf("https://") >= 0) {
                 redirected++;
@@ -82,7 +82,7 @@ void arsenal_ssl_strip(void) {
     tft.setCursor(12, 66);
     tft.printf("Portal at %s", WiFi.softAPIP().toString().c_str());
     tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-    tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+    tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
 
     while (true) {
         drawMainBorderWithTitle("SSL Strip");
@@ -98,7 +98,7 @@ void arsenal_ssl_strip(void) {
         tft.setCursor(12, y);
         tft.printf("Portal at: %s", WiFi.softAPIP().toString().c_str());
         tft.setTextColor(TFT_YELLOW, bruceConfig.bgColor);
-        tft.drawCentreString("Esc:stop", tftWidth / 2, tftHeight - 20, 1);
+        tft.drawCentreString(String("Esc:stop"), tftWidth / 2, tftHeight - 20, 1);
 
         if (check(EscPress)) break;
         delay(200);

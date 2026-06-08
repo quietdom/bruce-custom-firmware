@@ -114,7 +114,7 @@ void arsenal_decoy_traffic(void) {
                 tft.printf("Elapsed: %lus", elapsed);
 
                 tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-                tft.drawCentreString("Esc:stop Up/Dn:intensity", tftWidth / 2, tftHeight - 20, 1);
+                tft.drawCentreString(String("Esc:stop Up/Dn:intensity"), tftWidth / 2, tftHeight - 20, 1);
             }
 
             if (check(EscPress)) break;

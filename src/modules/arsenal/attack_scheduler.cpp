@@ -123,7 +123,7 @@ void arsenal_attack_scheduler(void) {
             }
 
             tft.setTextColor(TFT_RED, bruceConfig.bgColor);
-            tft.drawCentreString("Esc to cancel all", tftWidth / 2, tftHeight - 18, 1);
+            tft.drawCentreString(String("Esc to cancel all"), tftWidth / 2, tftHeight - 18, 1);
 
 
             for (auto &t : scheduledTasks) {
