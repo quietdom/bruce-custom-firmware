@@ -54,8 +54,10 @@ void ArsenalMenu::wifiArsenalMenu() {
 #if !LITE_VERSION
         {"SSL Strip Lite",     arsenal_ssl_strip                },
 #endif
+#if !LITE_VERSION
         {"UPnP Port Opener",   arsenal_upnp_port_opener         },
         {"Default Creds",      arsenal_default_cred_scanner     },
+#endif
         {"DNS Tunnel",         arsenal_dns_tunnel               },
         {"WPS PIN Attack",     arsenal_wps_pin_attack           },
         {"Rogue AP Detect",    arsenal_rogue_ap_detector        },
@@ -82,7 +84,9 @@ void ArsenalMenu::intelligenceMenu() {
         {"OUI Lookup",         arsenal_oui_lookup               },
         {"Probe Log",          arsenal_wifi_probe_log           },
         {"Banner Grabber",     arsenal_service_banner_grabber   },
+#if !LITE_VERSION
         {"SmartHome Scan",     arsenal_smart_home_scanner       },
+#endif
         {"Channel Chart",      arsenal_wifi_channel_chart       },
 #if !LITE_VERSION
         {"People Counter",     arsenal_people_counter           },
@@ -145,8 +149,10 @@ void ArsenalMenu::detectionMenu() {
 
 void ArsenalMenu::commsMenu() {
     options = {
+#if !LITE_VERSION
         {"ESP-NOW Chat",       arsenal_espnow_chat              },
         {"ESP-NOW C2",         arsenal_espnow_c2                },
+#endif
         {"Dead Drop Mesh",     arsenal_dead_drop_mesh           },
         {"IR Data Transfer",   arsenal_ir_data_transfer         },
         {"Multi-Device Sync",  arsenal_multi_device_sync        },

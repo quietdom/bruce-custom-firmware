@@ -1,3 +1,4 @@
+#if !LITE_VERSION
 #include "arsenal.h"
 #include "core/display.h"
 #include "core/mykeyboard.h"
@@ -150,3 +151,4 @@ void arsenal_smart_home_scanner(void) {
     tft.drawCentreString(String("Esc:done"), tftWidth / 2, tftHeight - 20, 1);
     while (!check(EscPress)) delay(100);
 }
+#endif

@@ -1,3 +1,4 @@
+#if !LITE_VERSION
 #include "arsenal.h"
 #include "core/display.h"
 #include "core/mykeyboard.h"
@@ -127,3 +128,4 @@ void arsenal_espnow_chat(void) {
     esp_now_unregister_recv_cb();
     esp_now_deinit();
 }
+#endif

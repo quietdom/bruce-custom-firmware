@@ -101,8 +101,10 @@ void arsenal_arp_poisoner(void);
 #if !LITE_VERSION
 void arsenal_ssl_strip(void);
 #endif
+#if !LITE_VERSION
 void arsenal_upnp_port_opener(void);
 void arsenal_default_cred_scanner(void);
+#endif
 void arsenal_dns_tunnel(void);
 void arsenal_wps_pin_attack(void);
 void arsenal_rogue_ap_detector(void);
@@ -133,7 +135,9 @@ void arsenal_phish_device_found(void);
 void arsenal_wifi_probe_log(void);
 void arsenal_ssid_history_logger(void);
 void arsenal_service_banner_grabber(void);
+#if !LITE_VERSION
 void arsenal_smart_home_scanner(void);
+#endif
 void arsenal_wifi_channel_chart(void);
 #if !LITE_VERSION
 void arsenal_people_counter(void);
@@ -148,8 +152,10 @@ void arsenal_rf_silence_enforcer(void);
 #endif
 
 // Comms
+#if !LITE_VERSION
 void arsenal_espnow_chat(void);
 void arsenal_espnow_c2(void);
+#endif
 void arsenal_dead_drop_mesh(void);
 void arsenal_ir_data_transfer(void);
 void arsenal_multi_device_sync(void);

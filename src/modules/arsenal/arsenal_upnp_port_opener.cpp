@@ -1,3 +1,4 @@
+#if !LITE_VERSION
 #include "arsenal.h"
 #include "core/display.h"
 #include "core/mykeyboard.h"
@@ -146,3 +147,4 @@ void arsenal_upnp_port_opener(void) {
 
     while (!check(EscPress)) delay(100);
 }
+#endif
