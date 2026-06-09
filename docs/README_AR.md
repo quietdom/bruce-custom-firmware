@@ -1,219 +1,90 @@
-<div dir="rtl">
+?? [English](../README.md) | [Portugues](README_PT.md) | [Italiano](README_IT.md) | [Francais](README_FR.md) | [Russian](README_RU.md) | [Chinese](README_ZH.md) | [Polski](README_PL.md) | [Nederlands](README_NL.md) | [Turkce](README_TR.md) | [Deutsch](README_DE.md) | [Vietnamese](README_VN.md) | [Espanol](README_ES.md) | [Indonesia](README_ID.md) | [Arabic](README_AR.md)
 
-🌐 [English](../README.md) | [Português](README_PT.md) | [Italiano](README_IT.md) | [Français](README_FR.md) | [Русский](README_RU.md) | [中文](README_ZH.md) | [Polski](README_PL.md) | [Nederlands](README_NL.md) | [Türkçe](README_TR.md) | [Deutsch](README_DE.md) | [Tiếng Việt](README_VN.md) | [Español](README_ES.md) | [Indonesia](README_ID.md) | [العربية](README_AR.md)
-
-<p align="center">
-  <img src="../media/bruce_banner.jpg" alt="Bruce Arsenal" width="700">
-</p>
-
-<h1 align="center">🎯 Bruce Arsenal</h1>
+<h1 align="center">?? Bruce Arsenal</h1>
 
 <p align="center">
-  <b>برنامج ثابت هجومي مخصص للأمن السيبراني لأجهزة ESP32</b><br>
-  <i>26 أداة هجوم • لوحة تحكم متنقلة • تهرب في الخلفية • 60K+ نص برمجي</i>
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Platform-ESP32--S3-blue?style=flat-square" alt="ESP32-S3">
-  <img src="https://img.shields.io/badge/Target-T--Embed%20CC1101-green?style=flat-square" alt="T-Embed">
-  <img src="https://img.shields.io/badge/Tools-26+-red?style=flat-square" alt="Tools">
-  <img src="https://img.shields.io/badge/Scripts-60K+-purple?style=flat-square" alt="Scripts">
-  <img src="https://img.shields.io/badge/Status-Active-brightgreen?style=flat-square" alt="Status">
+  <b>برنامج مخصص لأمن الهجوم لأجهزة ESP32</b><br>
+  <i>72 أداة - برنامج واحد - أجهزة متعددة</i>
 </p>
 
 ---
 
 ## ما هذا
 
-نسخة معدلة بشكل كبير من [Bruce Firmware](https://github.com/pr3y/Bruce) مع وحدة **Arsenal** مخصصة مدمجة — مجموعة أدوات أمنية هجومية كاملة يمكن الوصول إليها من علامة تبويب قائمة واحدة بأيقونة التصويب.
-
-جميع ميزات Bruce الأصلية تبقى سليمة. يضيف Arsenal 26 أداة جديدة، ولوحة تحكم ويب متنقلة، وخدمات تهرب في الخلفية، ومتصفح نصوص برمجية يمكنه تحميل أكثر من 60 ألف حمولة من بطاقة SD.
+نسخة معدلة من Bruce Firmware مع وحدة Arsenal مخصصة - 72 أداة أمن هجومية متاحة من قائمة واحدة.
 
 ---
 
 ## التثبيت
 
-1. قم بتنزيل ملف `.bin` من [Releases](../../releases)
-2. قم بتحميله على جهازك باستخدام إحدى الطرق:
-   - **USB:** [ESP Web Flasher](https://espressif.github.io/esptool-js/) (Chrome/Edge)
-   - **OTA:** بعد التحميل الأول، استخدم Arsenal → Dashboard → ارفع ملف .bin جديد من الهاتف
-3. تم
+1. قم بتنزيل .bin من Releases
+2.  flashed عبر ESP Web Flasher أو OTA عبر Arsenal Dashboard
 
 ---
 
-## قائمة Arsenal
+## أدوات Arsenal (72)
 
-```
-🎯 Arsenal
-├── WiFi Arsenal ──────── 8 أدوات WiFi هجومية
-├── BLE Arsenal ───────── 5 أدوات هجوم Bluetooth
-├── الاستخبارات ────────── 3 أدوات استطلاع/وعي
-├── التهرب ─────────────── 5 أدوات تخفي/مضادة للكشف
-├── التوليفات ──────────── سلاسل هجوم مسبقة + مخصصة
-├── المجدول ────────────── تنفيذ هجوم مؤجل زمنياً
-├── النصوص البرمجية ────── تصفح 60K+ حمولة من SD
-├── سجل الجلسة ─────────── تسجيل النشاط على SD
-├── Jam All ───────────── تشويش متزامن متعدد النطاقات (واجهة مخصصة)
-└── Dashboard ─────────── واجهة ويب متنقلة + مدير ملفات + OTA
-```
+### WiFi Arsenal (11)
+Network Scanner, DHCP Starvation, Karma Attack, DNS Spoofer, Auto-Phish Portal, Cred Forward, Auth Flood, AP Clone Flood, SSL Strip Lite, DNS Tunnel, WPS PIN Attack
 
----
+### BLE Arsenal (6)
+BLE Tracker, BT Name Spammer, AirTag Spoofer, Audio Jammer, Notification Spoofer, BT Rickroll
 
-## الأدوات
+### الاستخبارات (8)
+Device Fingerprinter, OPSEC Monitor, OUI Lookup, Probe Log, Banner Grabber, SmartHome Scan, Channel Chart, People Counter
 
-### WiFi Arsenal
+### الهروب (5)
+MAC Rotator, Channel Hopper, Decoy Traffic, Identity Cloner, Time Randomizer
 
-| الأداة | ما تفعله |
-|--------|----------|
-| **Network Scanner** | مسح ARP + فحص منافذ TCP. يعرض الأجهزة والمنافذ المفتوحة وأسماء المصنعين |
-| **DHCP Starvation** | يغمر طلبات DHCP بعناوين MAC مزيفة لاستنفاد مجموعة IP الخاصة بالراوتر |
-| **Karma Attack** | يستجيب لجميع طلبات WiFi probe — الأجهزة القريبة تتصل تلقائياً بك |
-| **DNS Spoofer** | يعترض DNS عند التشغيل كـ AP. جميع النطاقات تحل إلى بوابتك |
-| **Portal Templates** | يحمل HTML تصيد مخصص من بطاقة SD. يلتقط بيانات الاعتماد إلى ملف |
-| **Auto-Phish Portal** | يكتشف الشبكات التي يبحث عنها الضحايا، يستنسخ SSID، يقدم البوابة |
-| **Cred Forward** | يلتقط بيانات اعتماد البوابة → يتصل تلقائياً بـ AP الحقيقي → يجسر حركة المرور. MITM شفاف كامل |
-| **WiFi Brute Force** | يولد قائمة كلمات ذكية من اسم SSID (توليفات سنوات، leet speak، أنماط شائعة). يجرب مباشرة |
+### التصيد (4)
+Win Update Phish, WiFi Speed Phish, OAuth Phish, Device Found Phish
 
-### BLE Arsenal
+### Sub-GHz / RF (6)
+NRF24 MouseJack, Doorbell Replay, Garage Brute Force, Keyfob Logger, Frequency Scanner, Flipper Import
 
-| الأداة | ما تفعله |
-|--------|----------|
-| **BLE Tracker** | مسح BLE مستمر مع تقدير مسافة RSSI. يكشف AirTag وSmartTag وTile التي تتبعك |
-| **Name Spammer** | يغمر قنوات BLE advertising بمئات أسماء الأجهزة العشوائية |
-| **AirTag Spoofer** | يبث إشارات Apple FindMy AirTag مزيفة. علامات وهمية تظهر على أجهزة iPhone القريبة |
-| **Audio Jammer** | يعطل اتصالات BLE الصوتية (AirPods، مكبرات الصوت) بطوفان advertisements |
-| **Notification Spoofer** | يدفع نوافذ منبثقة مزيفة لجهاز تم العثور عليه إلى Android (Fast Pair) وWindows (Swift Pair) وiOS (قرب AirPods) |
+### الكشف (3)
+Flipper Detector, Hacker Detector, RF Silence Enforcer
 
-### الاستخبارات
+### الاتصالات (5)
+ESP-NOW Chat, ESP-NOW C2, Dead Drop Mesh, IR Data Transfer, Multi-Device Sync
 
-| الأداة | ما تفعله |
-|--------|----------|
-| **Device Fingerprinter** | بصمة WiFi سلبية. يحدد نظام تشغيل/طراز الجهاز من سلوك probe وOUI والتوقيت |
-| **OPSEC Monitor** | يكشف إذا كنت تُفحص أو يُلغى مصادقتك أو تُتبع. مستوى التهديد: أخضر/أصفر/أحمر |
-| **OUI Lookup** | بحث غير متصل في قاعدة بيانات مصنعي MAC من بطاقة SD |
-
-### التهرب
-
-| الأداة | ما تفعله |
-|--------|----------|
-| **MAC Rotator** | يعشوئ عنوان MAC WiFi على مؤقت قابل للتكوين. سرعة قابلة للتعديل |
-| **Channel Hopper** | يبدل قنوات WiFi بسرعة أثناء العمليات. فاصل زمني قابل للتكوين |
-| **Decoy Traffic** | يصدر إطارات beacon/probe عشوائية على قنوات دوارة. يخفي النشاط الحقيقي في الضوضاء |
-| **Identity Cloner** | يلتقط هويات الأجهزة القريبة (MAC + نمط probe). استنسخ واحدة لتصبح غير مرئي |
-| **QR Poisoner** | يولد رموز QR تشير إلى بوابتك. اعرض على الشاشة، اطبع وضع |
-
-### Jam All (واجهة مخصصة)
-
-لوحة تحكم بملء الشاشة مع مفاتيح لكل نطاق، أشرطة نشاط مباشرة، مؤقت منقضي وزر إيقاف فوري.
-
-| النطاق | الطريقة |
-|--------|---------|
-| WiFi 2.4GHz | طوفان deauth يدور على جميع القنوات الـ 14 |
-| BLE | طوفان قنوات advertisement (37، 38، 39) |
-| Sub-GHz | إرسال CC1101 مستمر (315/433/868/915 MHz) |
-| NRF24 | حامل 2.4GHz على قنوات دوارة |
-
-### الأدوات المساعدة
-
-| الأداة | ما تفعله |
-|--------|----------|
-| **Attack Scheduler** | اختر أداة → حدد التأخير (0 إلى ساعة واحدة) → حدد المدة. يبدأ ويتوقف تلقائياً |
-| **Session Log** | يسجل كل إجراء مع طوابع زمنية. عرض/تصدير/مسح من القائمة |
-| **Script Browser** | تصفح مجلدات SD المصنفة. يطلق تلقائياً حسب نوع الملف (.txt/.sub/.ir/.html/.nfc/.js) |
-| **Combo Presets** | سلاسل هجوم بلمسة واحدة. مدمجة: Stealth Mode، Full Attack، Passive Recon. أنشئ مخصصة بملف .txt على SD |
-| **Remote Dashboard** | يتصل الهاتف بـ AP ArsenalNet → واجهة ويب متنقلة كاملة مع مدير ملفات + تحديثات OTA |
+### الأدوات المساعدة (2)
+NFC Biz Card, Attack Stats
 
 ---
 
-## خدمات الخلفية
+## توافق الألواح
 
-تعمل هذه بشكل مستمر عبر جميع القوائم — ليس فقط داخل Arsenal.
+### ESP32-S3 (كامل - 72 أدوات)
+LilyGo T-Embed CC1101, T-Deck Pro, T-Deck, T-Display S3, T-HMI, T-LoRa Pager, T-Watch S3, M5Stack Cardputer, CoreS3, StickS3
 
-| الخدمة | الوصف |
-|--------|-------|
-| **OPSEC Dot** | دائرة ملونة في شريط الحالة (أخضر/أصفر/أحمر). مرئية دائماً، في كل شاشة |
-| **Always-On Evasion** | تدوير MAC + channel hopping + decoy traffic. يعمل بصمت على نواة CPU 0 |
-| **Low Power Mode** | يبطئ مهام الخلفية 5x لتوفير البطارية. التبديل من قائمة Combos |
-| **Auto-Dim** | ينخفض سطوع الشاشة أثناء الهجمات النشطة. يستعيد عند التوقف |
+### ESP32 (LITE - 31 أدوات)
+M5Stack Core 4MB/16MB, CPlus 1.1, CYD (all variants), Elecrow, Marauder, Awok, WaveSentry, Phantom
 
----
-
-## Remote Dashboard
-
-ابدأ Arsenal → Dashboard. صل هاتفك بـ `ArsenalNet` (كلمة المرور: `arsenal32`). افتح `192.168.4.1` في المتصفح.
-
-**الميزات:**
-- بدء/إيقاف جميع الأدوات الـ 26 من الهاتف
-- تصفح، رفع، حذف الملفات على بطاقة SD (مجلد `/arsenal/`)
-- رفع ملف firmware `.bin` لتحديث OTA
-- رفع النصوص البرمجية بالسحب والإفلات إلى مجلدات مصنفة
-- حالة النظام مباشرة (heap، مساحة SD، وقت التشغيل)
+### قيود معروفة
+M5Stack CPlus2, M5Stack Core2 - فيضان DRAM (متغيرات البرنامج الأساسي)
 
 ---
 
-## تخطيط بطاقة SD
+## الخدمات الخلفية
 
-```
-/arsenal/
-├── badusb/       حمولات DuckyScript (.txt)
-├── subghz/       التقاطات إشارات Sub-GHz (.sub)
-├── ir/           ملفات التحكم عن بعد IR (.ir)
-├── portals/      قوالب HTML evil portal
-├── nfc/          تفريغات بطاقات NFC (.nfc)
-├── rfid/         التقاطات RFID 125kHz (.rfid)
-├── ibutton/      ملفات مفاتيح iButton (.ibutton)
-├── scripts/      أتمتة JavaScript (.js)
-├── combos/       إعدادات combo مخصصة (.txt — اسم ميزة واحد لكل سطر)
-├── logs/         سجلات الجلسة (يُنشأ تلقائياً)
-└── creds.txt     بيانات الاعتماد الملتقطة (يُنشأ تلقائياً)
-```
-
-متوافق مع [BruceFlipperScripts](https://github.com/Unknown3613/BruceFlipperScripts) (60K+ نص برمجي).
+- **OPSEC Dot** - دائرة ملونة على شريط الحالة
+- **Always-On Evasion** - تدوير MAC + قفز القنوات + حركة المرور الخداعية
+- **Auto-Dim** - تقل سطوع الشاشة أثناء الهجمات
 
 ---
 
-## التوليفات المخصصة
+## لوحة التحكم
 
-أنشئ ملف `.txt` في `/arsenal/combos/` مع ميزة واحدة لكل سطر:
-
-```
-mac_rotator
-channel_hopper
-decoy_traffic
-ble_tracker
-```
-
-يظهر تلقائياً في Arsenal → Combos.
+Arsenal > Dashboard. اتصل الهاتف بـ ArsenalNet (كلمة المرور: arsenal32). افتح 192.168.4.1.
 
 ---
 
-## العتاد
+## الاعتمادات
 
-الهدف الأساسي: **LilyGo T-Embed CC1101**
-- ESP32-S3 (16MB flash، 8MB PSRAM)
-- شاشة TFT ST7789 بحجم 320x170
-- مشفر دوار + زر
-- راديو Sub-GHz CC1101
-- راديو NRF24 2.4GHz
-- NFC PN532
-- فتحة بطاقة SD
-- USB-C (BadUSB HID)
-- مكبر صوت + ميكروفون
-- مصابيح LED RGB
-- مقياس الوقود BQ27220
+- [Bruce Firmware](https://github.com/pr3y/Bruce) by pr3y
+- Arsenal module by quietdom
 
 ---
 
-## الشكر والتقدير
-
-- مبني على [Bruce Firmware](https://github.com/pr3y/Bruce) بواسطة pr3y
-- وحدة Arsenal بواسطة quietdom
-- مجموعة النصوص البرمجية متوافقة مع [BruceFlipperScripts](https://github.com/Unknown3613/BruceFlipperScripts)
-
----
-
-## إخلاء المسؤولية
-
-هذا البرنامج الثابت مخصص فقط لاختبار الأمان المصرح به والأغراض التعليمية. لا تستخدمه ضد شبكات أو أجهزة لا تملكها أو ليس لديك إذن صريح لاختبارها. المؤلفون غير مسؤولين عن سوء الاستخدام.
-
-</div>
+## لأغراض اختبار الأمان المصرح بها والتعليم فقط.
